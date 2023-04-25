@@ -92,7 +92,7 @@ public class WordleGame {
             status = WordleGameStatus.PLAYING;
         }
     }
-
+    /*
     public class WordleGame {
 
         public static void main(String[] args) {
@@ -113,5 +113,5 @@ public class WordleGame {
             } else {
                 System.out.println("Sorry, you lost. The word was " + game.getWord());
             }
-        }
+        }*/
 }
