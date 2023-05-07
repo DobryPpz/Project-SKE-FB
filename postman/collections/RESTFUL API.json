@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "6284b2b6-568b-442d-b3f9-f87aee40b2a0",
+		"name": "RESTFUL API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "19442201-6284b2b6-568b-442d-b3f9-f87aee40b2a0"
+	},
+	"item": [],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d9502cc4-75f4-4eda-9b9d-73db434c6add",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "edb31a97-2bbd-458e-a49c-0adf39dc35f9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

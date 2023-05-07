@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>User</title>
+</head>
+<body>
+<div>
+  <div>
+    <div>
+      <h1>User Details</h1>
+      <div>Username: <span sec:authentication="principal.username"/></div>
+      <div> Roles: <span sec:authentication="principal.authorities"/></div>
+
+      <div><a th:href="@{/logout}">Logout</a></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
