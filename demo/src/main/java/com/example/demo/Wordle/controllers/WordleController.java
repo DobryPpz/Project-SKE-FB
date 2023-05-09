@@ -4,7 +4,7 @@ import com.example.demo.Wordle.exceptions.GameAlreadyOverException;
 import com.example.demo.Wordle.exceptions.GameDoesNotExistException;
 import com.example.demo.Wordle.exceptions.InvalidGuessException;
 import com.example.demo.Wordle.models.WordleGame;
-import com.example.demo.Wordle.other.TempClassForWords;
+import com.example.demo.Wordle.other.WordleWords;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 class WordleController {
 
-    private List<String> listOfWords = TempClassForWords.getWords();
+    private List<String> listOfWords = WordleWords.getWords();
     private @Autowired ServletContext servletContext;
     private int idOfGame = 0;
 
@@ -62,9 +62,9 @@ class WordleController {
             case ACTIVE:
                 break;
             case WON:
-                throw new GameAlreadyOverException(game);
+                return gameOver(game);
             case LOST:
-                throw new GameAlreadyOverException(game);
+                return gameOver(game);
         }
 
         game.makeGuess(guess);
@@ -72,36 +72,36 @@ class WordleController {
     }
 
     @ExceptionHandler(GameAlreadyOverException.class)
-    private ResponseEntity<String> gameOver(GameAlreadyOverException ex)
+    private ResponseEntity<String> gameOver(WordleGame game)
     {
-        String s = "Game is already complete - you "+ex.getGame().getStatus()+". The word was: "+ex.getGame().getWord();
+        String s = "Game is already complete - you "+game.getStatus()+". The word was: "+game.getWord();
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GameDoesNotExistException.class)
-    private ResponseEntity<String> gameDoesntExist(GameDoesNotExistException ex)
+    private ResponseEntity<String> gameDoesntExist(WordleGame game)
     {
-        String s = "Game with given id "+ex.getGameID()+" doesn't exist ";
+        String s = "Game with given id "+game.getGameID()+" doesn't exist ";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidGuessException.class)
-    private ResponseEntity<String> guessIsNotValid(InvalidGuessException ex) {
-        String s = "This guess: " + ex.getGuess() + " is not valid guess";
+    private ResponseEntity<String> guessIsNotValid(WordleGame game) {
+        String s = "This guess: " + game.getGuess() + " is not valid guess";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     private WordleGame getGame(String id, HttpSession session) {
         List<WordleGame> games = getAllCurrentGames(session);
         for (WordleGame game : games) {
-            if (String.valueOf(game.getId()).equals(id)){
+            if (String.valueOf(game.getGameID()).equals(id)){
                 return game;
             }
         }
         return null;
     }
 
-    public void checkIfGuessIsRight(HangmanGame game,String guess)
+    public void checkIfGuessIsRight(WordleGame game,String guess)
     {
         char guess0 = Character.toLowerCase(guess.charAt(0));
         if (game.getWord().contains(String.valueOf(guess0))){
