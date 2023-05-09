@@ -2,10 +2,13 @@ package com.example.demo.Wordle.models;
 import java.util.List;
 import java.util.Scanner;
 import java.util.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class WordleGame {
     private final int gameId;
-    private final String wordToGuess;
+    private final String word;
+
+    private String guessedWord;
     private String guess;
     private int guessCount;
     private final int maxGuessCount = 6;
@@ -14,22 +17,26 @@ public class WordleGame {
     public WordleGame(List<String> listOfWords, int gameId) {
         this.gameId = gameId;
         Random random = new Random();
-        this.wordToGuess = listOfWords.get(random.nextInt(listOfWords.size()));
+        this.word = getRandomWord(listOfWords);
         this.guess = "";
         this.guessCount = 0;
         this.status = WordleGameStatus.ACTIVE;
     }
 
-    public int getGameId() {
-        return gameId;
+    @JsonIgnore
+    public String getWord(){
+        return word;
     }
-
-    public String getWordToGuess() {
-        return wordToGuess;
+    public int getGameID() {
+        return gameId;
     }
 
     public String getGuess() {
         return guess;
+    }
+
+    public String getGuessedWord(){
+        return guessedWord;
     }
 
     public int getGuessCount() {
@@ -45,12 +52,12 @@ public class WordleGame {
         Set<Character> guessedLetters = new HashSet<>();
 
         //dodaje wszystkie litery do unsolvedLetters
-        for (char c : word.toCharArray()) {
+        for (char c : guess.toCharArray()) {
             unsolvedLetters.add(c);
         }
 
         //dodaje odgadniete do guessed
-        for (char c : guessedWords.toString().toCharArray()) {
+        for (char c : guess.toString().toCharArray()) {
             if (Character.isLetter(c)) {
                 guessedLetters.add(Character.toLowerCase(c));
             }
@@ -73,8 +80,8 @@ public class WordleGame {
         Set<Character> correctChars = new HashSet<>();
         Set<Character> incorrectChars = new HashSet<>();
 
-        for (int i = 0; i < wordToGuess.length(); i++) {
-            char c = wordToGuess.charAt(i);
+        for (int i = 0; i < guess.length(); i++) {
+            char c = guess.charAt(i);
             if (guess.charAt(i) == c) {
                 correctChars.add(c);
             } else if (guess.contains(Character.toString(c))) {
@@ -82,36 +89,52 @@ public class WordleGame {
             }
         }
 
-        if (correctChars.size() == wordToGuess.length()) {
+        if (correctChars.size() == guess.length()) {
             status = WordleGameStatus.WON;
         } else if (guessCount >= maxGuessCount) {
             status = WordleGameStatus.LOST;
         }
+    }
 
-        if (status == WordleGameStatus.ACTIVE) {
-            status = WordleGameStatus.PLAYING;
+    public void setGuessedWord(Character c) {
+        char[] tempGuessedWord = this.word.toCharArray();
+        for(int i=0; i < this.word.length(); i++) {
+            Character wc = this.word.charAt(i);
+            if (wc.equals(c)) {
+                tempGuessedWord[i] = c;
+            }
+        }
+        this.guessedWord = new String(tempGuessedWord);
+        this.setStatus();
+    }
+
+    private static String getRandomWord(List<String> listOfAllWords){
+        Random random = new Random();
+        int index = random.nextInt(listOfAllWords.size());
+        return listOfAllWords.get(index);
+    }
+
+    private static String getEmptyWord(int word_len){
+        char[] emptyWord = new char[word_len];
+        Arrays.fill(emptyWord, '_');
+        return new String(emptyWord);
+    }
+
+    public void setStatus(){
+        if(word.equals(guessedWord)) {
+            this.status = WordleGameStatus.WON;
+        }
+        else{
+            if(guessCount > 0) {
+                this.status = WordleGameStatus.ACTIVE;
+            }
+            if(guessCount >= maxGuessCount){
+                this.status = WordleGameStatus.LOST;
+            }
         }
     }
-    /*
-    public class WordleGame {
-
-        public static void main(String[] args) {
-            List<String> words = TempClassForWords.getWords();
-            int gameId = 1;
-            WordleGame game = new WordleGame(words, gameId);
-            Scanner scanner = new Scanner(System.in);
-
-            while (game.getStatus() == WordleGameStatus.ACTIVE) {
-                System.out.println("Guess the word: " + game.getWordState());
-                String guess = scanner.nextLine();
-                game.checkGuess(guess);
-                System.out.println(game.getFeedback());
-            }
-
-            if (game.getStatus() == WordleGameStatus.WON) {
-                System.out.println("Congratulations! You won!");
-            } else {
-                System.out.println("Sorry, you lost. The word was " + game.getWord());
-            }
-        }*/
+    public void incIncorrect_guesses(){
+        this.guessCount++;
+        this.setStatus();
+    }
 }
