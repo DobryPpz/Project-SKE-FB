@@ -3,20 +3,38 @@ import java.util.List;
 import java.util.Random;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "hangman_game")
 public class HangmanGame {
 
-    private final int gameId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
+    private int gameId;
     //jeszcze kategoria slowa się przyda
-    private final String word;
+    @Column(name = "word",nullable = false)
+    private String word;
+    @Column(name = "guessed_word",nullable = false)
     private String guessedWord;
+    @Enumerated(EnumType.STRING)
     private HangmanGameStatus status;
-
+    @Column(name = "guesses_left",nullable = false)
     private int guessesLeft;
     private static final int MAX_NR_OF_TRIES = 7;
 
+    public HangmanGame() {
+    }
+
     public HangmanGame(List<String> listOfAllWords, int gameId){
         this.gameId = gameId;
+        this.word = getRandomWord(listOfAllWords);
+        this.guessesLeft = MAX_NR_OF_TRIES;
+        this.guessedWord = getEmptyWord(this.word.length());
+        this.setStatus();
+    }
+    public HangmanGame(List<String> listOfAllWords){
         this.word = getRandomWord(listOfAllWords);
         this.guessesLeft = MAX_NR_OF_TRIES;
         this.guessedWord = getEmptyWord(this.word.length());
@@ -57,7 +75,7 @@ public class HangmanGame {
             }
         }
     }
-    public void incIncorrect_guesses(){
+    public void incIncorrectGuesses(){
         this.guessesLeft--;
         this.setStatus();
     }

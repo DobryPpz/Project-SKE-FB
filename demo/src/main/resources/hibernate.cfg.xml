@@ -1,0 +1,25 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- ustawienia polaczenia z baza: -->
+       <!-- konektor: -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <!-- url, uwaga, może wystepowac problem z rozpoznaniem TimeZone przy
+        polaczeniu, dlatego podaje w urlu mój TimeZone, można go sprawdzic w javie:
+        TimeZone.getDefault().getID()
+         -->
+        <property name="connection.url">jdbc:mysql://localhost:3306/dbb</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">TESTtest123</property>
+        <!-- Pula polaczen, do testow tworzy 1 polaczenie: -->
+        <property name="connection.pool_size">1</property>
+        <!-- język MYSQL -->
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <!-- Wyswietlanie polecen sql przy dzialaniu aplikacji -->
+        <property name="show_sql">true</property>
+        <!-- biezaca sesja jako watek wykonania -->
+        <property name="current_session_context_class">thread</property>
+    </session-factory>
+</hibernate-configuration>
