@@ -8,13 +8,13 @@ import com.example.demo.Wordle.other.WordleWords;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,7 @@ class WordleController {
     @RequestMapping(value = "/wordle/new_game", method = RequestMethod.GET)
     public WordleGame newGame(HttpSession session) {
         idOfGame++;
-        WordleGame newGame = new WordleGame(listOfWords,idOfGame);
+        WordleGame newGame = new WordleGame(listOfWords, idOfGame);
         List<WordleGame> games = getAllCurrentGames(session);
         games.add(newGame);
         return newGame;
@@ -44,8 +44,8 @@ class WordleController {
         return gamesInSession;
     }
 
-    @RequestMapping(value = "/wordle/guess", method = RequestMethod.POST, headers="Accept=application/json", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> makeGuess (@RequestBody Map<String,String> json, HttpSession session) throws Exception {
+    @RequestMapping(value = "/wordle/guess", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> makeGuess(@RequestBody Map<String, String> json, HttpSession session) throws Exception {
         String gameID = json.get("game");
         String guess = json.get("guess");
 
@@ -68,45 +68,39 @@ class WordleController {
         }
 
         game.makeGuess(guess);
+
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @ExceptionHandler(GameAlreadyOverException.class)
-    private ResponseEntity<String> gameOver(WordleGame game)
-    {
-        String s = "Game is already complete - you "+game.getStatus()+". The word was: "+game.getWord();
+    private ResponseEntity<String> gameOver(WordleGame game) {
+        String s = "Game is already complete - you " + game.getStatus() + ". The word was: " + game.getWord();
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GameDoesNotExistException.class)
-    private ResponseEntity<String> gameDoesntExist(WordleGame game)
-    {
-        String s = "Game with given id "+game.getGameID()+" doesn't exist ";
+    private ResponseEntity<String> gameDoesntExist(WordleGame game) {
+        String s = "Game with given id " + game.getGameID() + " doesn't exist ";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidGuessException.class)
     private ResponseEntity<String> guessIsNotValid(WordleGame game) {
-        String s = "This guess: " + game.getGuess() + " is not valid guess";
+        String s = "This guess: " + game.getGuess() + " is not a valid guess";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
     }
 
     private WordleGame getGame(String id, HttpSession session) {
         List<WordleGame> games = getAllCurrentGames(session);
         for (WordleGame game : games) {
-            if (String.valueOf(game.getGameID()).equals(id)){
+            if (String.valueOf(game.getGameID()).equals(id)) {
                 return game;
             }
         }
         return null;
     }
 
-    public void checkIfGuessIsRight(WordleGame game,String guess)
-    {
-        char guess0 = Character.toLowerCase(guess.charAt(0));
-        if (game.getWord().contains(String.valueOf(guess0))){
-            game.setGuessedWord(guess0);
-        }
-        else game.incIncorrect_guesses();
+    private int calculateGuessesLeft(WordleGame game) {
+        return game.getMaxGuessCount() - game.getGuessCount();
     }
 }
