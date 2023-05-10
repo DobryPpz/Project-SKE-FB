@@ -1,72 +1,87 @@
 package com.example.demo.Wordle.models;
-import java.util.List;
-import java.util.Scanner;
-import java.util.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import java.util.*;
+
+@JsonPropertyOrder({"gameID", "status", "word", "guessesLeft", "guess", "hint", "notUsedLetters"})
 public class WordleGame {
     private final int gameId;
     private final String word;
-
-    private String guessedWord;
     private String guess;
+    private WordleGameStatus status;
+    private Map<Character, LetterState> letterStates;
     private int guessCount;
     private final int maxGuessCount = 6;
-    private WordleGameStatus status;
 
     public WordleGame(List<String> listOfWords, int gameId) {
         this.gameId = gameId;
         Random random = new Random();
         this.word = getRandomWord(listOfWords);
         this.guess = "";
-        this.guessCount = 0;
         this.status = WordleGameStatus.ACTIVE;
+        this.letterStates = initializeLetterStates();
+        this.guessCount = 0;
     }
 
-    @JsonIgnore
-    public String getWord(){
-        return word;
-    }
     public int getGameID() {
         return gameId;
+    }
+
+    public String getWord() {
+        return word;
     }
 
     public String getGuess() {
         return guess;
     }
 
-    public String getGuessedWord(){
-        return guessedWord;
-    }
-
-    public int getGuessCount() {
-        return guessCount;
-    }
-
     public WordleGameStatus getStatus() {
         return status;
     }
 
-    public Set<Character> getUnsolvedLetters() {
-        Set<Character> unsolvedLetters = new HashSet<>();
-        Set<Character> guessedLetters = new HashSet<>();
+    public Set<Character> getNotUsedLetters() {
+        Set<Character> notUsedLetters = new HashSet<>();
 
-        //dodaje wszystkie litery do unsolvedLetters
-        for (char c : guess.toCharArray()) {
-            unsolvedLetters.add(c);
-        }
-
-        //dodaje odgadniete do guessed
-        for (char c : guess.toString().toCharArray()) {
-            if (Character.isLetter(c)) {
-                guessedLetters.add(Character.toLowerCase(c));
+        for (Map.Entry<Character, LetterState> entry : letterStates.entrySet()) {
+            if (entry.getValue() == LetterState.NOT_USED) {
+                notUsedLetters.add(entry.getKey());
             }
         }
 
-        //usuwa litery ktorych nie ma
-        unsolvedLetters.removeAll(guessedLetters);
+        return notUsedLetters;
+    }
 
-        return unsolvedLetters;
+    @JsonIgnore
+    public int getGuessCount() {
+        return guessCount;
+    }
+
+    @JsonIgnore
+    public int getMaxGuessCount() {
+        return maxGuessCount;
+    }
+
+    public int getGuessesLeft() {
+        return maxGuessCount - guessCount;
+    }
+
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<>();
+        for (int i = 0; i < guess.length(); i++) {
+            char c = guess.charAt(i);
+            if (letterStates.containsKey(c)) {
+                if (word.charAt(i) == c) {
+                    hint.add(c + " - GREEN");
+                } else if (word.contains(Character.toString(c))) {
+                    hint.add(c + " - YELLOW");
+                } else {
+                    hint.add(c + " - GREY");
+                }
+            }
+        }
+        return hint;
     }
 
     public void makeGuess(String guess) {
@@ -77,64 +92,43 @@ public class WordleGame {
         this.guessCount++;
         this.guess = guess;
 
-        Set<Character> correctChars = new HashSet<>();
-        Set<Character> incorrectChars = new HashSet<>();
-
         for (int i = 0; i < guess.length(); i++) {
             char c = guess.charAt(i);
-            if (guess.charAt(i) == c) {
-                correctChars.add(c);
-            } else if (guess.contains(Character.toString(c))) {
-                incorrectChars.add(c);
+            if (letterStates.containsKey(c) && letterStates.get(c) != LetterState.NOT_USED) {
+                continue;
+            }
+
+            if (word.contains(Character.toString(c))) {
+                if (guess.charAt(i) == word.charAt(i)) {
+                    letterStates.put(c, LetterState.GREEN);
+                } else {
+                    letterStates.put(c, LetterState.YELLOW);
+                }
+            } else {
+                letterStates.put(c, LetterState.GREY);
             }
         }
 
-        if (correctChars.size() == guess.length()) {
+        if (guess.equals(word)) {
             status = WordleGameStatus.WON;
         } else if (guessCount >= maxGuessCount) {
             status = WordleGameStatus.LOST;
         }
     }
 
-    public void setGuessedWord(Character c) {
-        char[] tempGuessedWord = this.word.toCharArray();
-        for(int i=0; i < this.word.length(); i++) {
-            Character wc = this.word.charAt(i);
-            if (wc.equals(c)) {
-                tempGuessedWord[i] = c;
-            }
-        }
-        this.guessedWord = new String(tempGuessedWord);
-        this.setStatus();
-    }
-
-    private static String getRandomWord(List<String> listOfAllWords){
+    private static String getRandomWord(List<String> listOfWords) {
         Random random = new Random();
-        int index = random.nextInt(listOfAllWords.size());
-        return listOfAllWords.get(index);
+        int index = random.nextInt(listOfWords.size());
+        return listOfWords.get(index);
     }
 
-    private static String getEmptyWord(int word_len){
-        char[] emptyWord = new char[word_len];
-        Arrays.fill(emptyWord, '_');
-        return new String(emptyWord);
-    }
+    private Map<Character, LetterState> initializeLetterStates() {
+        Map<Character, LetterState> letterStates = new HashMap<>();
 
-    public void setStatus(){
-        if(word.equals(guessedWord)) {
-            this.status = WordleGameStatus.WON;
+        for (char c = 'a'; c <= 'z'; c++) {
+            letterStates.put(c, LetterState.NOT_USED);
         }
-        else{
-            if(guessCount > 0) {
-                this.status = WordleGameStatus.ACTIVE;
-            }
-            if(guessCount >= maxGuessCount){
-                this.status = WordleGameStatus.LOST;
-            }
-        }
-    }
-    public void incIncorrect_guesses(){
-        this.guessCount++;
-        this.setStatus();
+
+        return letterStates;
     }
 }
