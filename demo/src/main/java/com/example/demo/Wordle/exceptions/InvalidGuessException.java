@@ -6,4 +6,3 @@ public class InvalidGuessException extends Exception
         super(String.format("Invalid guess: %s is incorrect", guess));
     }
 }
-//s
