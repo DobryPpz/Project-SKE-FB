@@ -111,7 +111,7 @@ public class WordleGame {
 
         if (guess.equals(word)) {
             status = WordleGameStatus.WON;
-        } else if (guessCount >= maxGuessCount) {
+        } else if (guessCount + 1 > maxGuessCount) {
             status = WordleGameStatus.LOST;
         }
     }
