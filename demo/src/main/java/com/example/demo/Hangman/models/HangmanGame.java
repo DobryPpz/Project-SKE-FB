@@ -2,6 +2,7 @@ package com.example.demo.Hangman.models;
 import java.util.List;
 import java.util.Random;
 
+import com.example.demo.Hangman.other.TempClassForWords;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -24,8 +25,8 @@ public class HangmanGame {
     private int guessesLeft;
     private static final int MAX_NR_OF_TRIES = 7;
 
-    public HangmanGame() {
-    }
+    /*public HangmanGame() {
+    }*/
 
     public HangmanGame(List<String> listOfAllWords, int gameId){
         this.gameId = gameId;
@@ -36,6 +37,13 @@ public class HangmanGame {
     }
     public HangmanGame(List<String> listOfAllWords){
         this.word = getRandomWord(listOfAllWords);
+        this.guessesLeft = MAX_NR_OF_TRIES;
+        this.guessedWord = getEmptyWord(this.word.length());
+        this.setStatus();
+    }
+
+    public HangmanGame(){
+        this.word = getRandomWord(TempClassForWords.getWords());
         this.guessesLeft = MAX_NR_OF_TRIES;
         this.guessedWord = getEmptyWord(this.word.length());
         this.setStatus();
