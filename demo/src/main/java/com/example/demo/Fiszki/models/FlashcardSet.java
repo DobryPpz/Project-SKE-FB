@@ -1,11 +1,30 @@
 package com.example.demo.Fiszki.models;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="flashcardsets")
 public class FlashcardSet {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+    @Column(name="name",nullable=false)
     private String name;
+
+    @OneToMany(mappedBy="flashcardSet")
     private List<Flashcard> flashcards;
 
     public FlashcardSet(String name) {
