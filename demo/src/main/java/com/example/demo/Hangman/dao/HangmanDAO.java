@@ -1,17 +1,11 @@
-package com.example.demo.Hangman.service;
-
-
-import com.example.demo.Hangman.dao.HangmanDAO;
+package com.example.demo.Hangman.dao;
 import com.example.demo.Hangman.models.HangmanGame;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-
-public interface HangmanService {
+public interface HangmanDAO {
 
     public ResponseEntity<?> newGame();
 
@@ -20,5 +14,6 @@ public interface HangmanService {
     public ResponseEntity<?> getGivenGame(String gameID);
 
     public ResponseEntity<?> makeGuess(Map<String, String> jsonWithIDandGuess) throws Exception;
+
 
 }
