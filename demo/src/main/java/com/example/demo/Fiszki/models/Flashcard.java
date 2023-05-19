@@ -1,23 +1,36 @@
 package com.example.demo.Fiszki.models;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="flashcards")
 public class Flashcard {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
-    private int flashcardSetId;
+    @Column(name="front")
     private String front;
+
+    @Column(name="back")
     private String back;
 
-    public Flashcard(int flashcardSetId ,String front, String back) {
-        this.flashcardSetId = flashcardSetId;
+    @ManyToOne
+    @JoinColumn(name="flashcardset_id",nullable = false)
+    private FlashcardSet flashcardSet;
+
+    public Flashcard(String front, String back, FlashcardSet flashcardSet) {
         this.front = front;
         this.back = back;
-    }
-
-    public int getFlashcardSetId() {
-        return flashcardSetId;
-    }
-
-    public void setFlashcardSetId(int flashcardSetId) {
-        this.flashcardSetId = flashcardSetId;
+        this.flashcardSet = flashcardSet;
     }
 
     public int getId() {
