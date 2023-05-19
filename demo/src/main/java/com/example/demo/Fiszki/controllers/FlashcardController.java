@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/flashcards")
+@RequestMapping("/user/flashcards")
 public class FlashcardController {
     private FlashcardService flashcardService;
     private FlashcardSetService flashcardSetService;
