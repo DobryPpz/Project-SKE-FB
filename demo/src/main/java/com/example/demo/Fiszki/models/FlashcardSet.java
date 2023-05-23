@@ -27,9 +27,13 @@ public class FlashcardSet {
     @OneToMany(mappedBy="flashcardSet")
     private List<Flashcard> flashcards;
 
-    public FlashcardSet(String name) {
+    @Column(name="user",nullable = false)
+    private String username;
+
+    public FlashcardSet(String name, String username) {
         this.name = name;
         this.flashcards = new ArrayList<>();
+        this.username = username;
     }
 
     public int getId() {

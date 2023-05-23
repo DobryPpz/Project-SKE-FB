@@ -26,10 +26,10 @@ public class FlashcardSetDAOImpl implements FlashcardSetDAO {
 
     @Override
     public List<FlashcardSet> findAllByUser(String username) {
-        TypedQuery<FlashcardSet> allStudents = entityManager.createQuery(
-                "FROM FlashcardSet WHERE =:username",FlashcardSet.class);
-        allStudents.setParameter("username",username);
-        return allStudents.getResultList();
+        TypedQuery<FlashcardSet> allSets = entityManager.createQuery(
+                "FROM FlashcardSet WHERE user=:username",FlashcardSet.class);
+        allSets.setParameter("username",username);
+        return allSets.getResultList();
     }
 
     @Override
