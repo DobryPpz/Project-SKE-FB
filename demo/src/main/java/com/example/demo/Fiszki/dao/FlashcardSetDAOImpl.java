@@ -1,4 +1,5 @@
 package com.example.demo.Fiszki.dao;
+import com.example.demo.Fiszki.models.Flashcard;
 import com.example.demo.Fiszki.models.FlashcardSet;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -29,7 +30,8 @@ public class FlashcardSetDAOImpl implements FlashcardSetDAO {
         TypedQuery<FlashcardSet> allSets = entityManager.createQuery(
                 "FROM FlashcardSet WHERE username=:username",FlashcardSet.class);
         allSets.setParameter("username",username);
-        return allSets.getResultList();
+        List<FlashcardSet> results = allSets.getResultList();
+        return results;
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.example.demo.Fiszki.controllers;
+import com.example.demo.Fiszki.models.Flashcard;
 import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardService;
 import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Fiszki.service.FlashcardSetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/flashcards")
@@ -20,10 +23,28 @@ public class FlashcardController {
         this.flashcardSetService = flashcardSetService;
     }
 
+    @GetMapping("/set")
+    public List<FlashcardSet> allSets(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return flashcardSetService.findAllByUser(username);
+    }
+
     @PostMapping("/set")
     public FlashcardSet addFlashcardSet(@RequestBody FlashcardSet flashcardSet){
-        flashcardSet.setId(0);
         FlashcardSet dbSet = flashcardSetService.save(flashcardSet);
         return dbSet;
+    }
+
+    @PostMapping("/set/flashcard")
+    public FlashcardSet addFlashcardToSet(@RequestBody Map<String,String> flashcard){
+        int flashcardSetId = Integer.parseInt(flashcard.get("set_id"));
+        String front = flashcard.get("front");
+        String back = flashcard.get("back");
+        FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
+        Flashcard newFlashcard = new Flashcard(front,back,flashcardSet);
+        flashcardSet.addFlashcard(newFlashcard);
+        newFlashcard = flashcardService.save(newFlashcard);
+        return flashcardSet;
     }
 }
