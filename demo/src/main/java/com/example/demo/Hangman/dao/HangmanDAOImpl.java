@@ -1,10 +1,12 @@
 package com.example.demo.Hangman.dao;
 
+import com.example.demo.CustomUserDetails;
 import com.example.demo.Hangman.exceptions.GameAlreadyOverException;
 import com.example.demo.Hangman.exceptions.GameDoesNotExistException;
 import com.example.demo.Hangman.exceptions.InvalidGuessException;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.Hangman.other.TempClassForWords;
+import com.example.demo.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
@@ -13,6 +15,7 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,8 +35,12 @@ public class HangmanDAOImpl implements HangmanDAO {
     }
 
     @Override
-    public ResponseEntity<?> newGame() {
-        HangmanGame newGame = new HangmanGame(listOfWords);
+    public ResponseEntity<?> newGame(String user) {
+        User userr = entityManager.
+                createQuery("FROM User u WHERE u.username = '"+user+"'", User.class).
+                getResultList().get(0);
+        HangmanGame newGame = new HangmanGame(listOfWords,userr);
+        userr.addHangmanGame(newGame);
         entityManager.persist(newGame);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);
     }
