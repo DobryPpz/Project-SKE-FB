@@ -2,12 +2,15 @@ package com.example.demo.Hangman.models;
 import java.util.List;
 import java.util.Random;
 
+import com.example.demo.CustomUserDetails;
 import com.example.demo.Hangman.other.TempClassForWords;
+import com.example.demo.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Entity
-@Table(name = "hangman_game")
+@Table(name = "hangman_games")
 public class HangmanGame {
 
     @Id
@@ -25,6 +28,11 @@ public class HangmanGame {
     private int guessesLeft;
     private static final int MAX_NR_OF_TRIES = 7;
 
+    @ManyToOne(cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="user_id")
+    private User user;
+
     /*public HangmanGame() {
     }*/
 
@@ -35,11 +43,12 @@ public class HangmanGame {
         this.guessedWord = getEmptyWord(this.word.length());
         this.setStatus();
     }
-    public HangmanGame(List<String> listOfAllWords){
+    public HangmanGame(List<String> listOfAllWords,User user){
         this.word = getRandomWord(listOfAllWords);
         this.guessesLeft = MAX_NR_OF_TRIES;
         this.guessedWord = getEmptyWord(this.word.length());
         this.setStatus();
+        this.user = user;
     }
 
     public HangmanGame(){
@@ -68,6 +77,15 @@ public class HangmanGame {
 
     public HangmanGameStatus getStatus(){
         return status;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setStatus(){

@@ -1,10 +1,13 @@
 package com.example.demo.Hangman.service;
 
+import com.example.demo.CustomUserDetails;
 import com.example.demo.Hangman.dao.HangmanDAO;
 import com.example.demo.Hangman.models.HangmanGame;
+import com.example.demo.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,9 @@ public class HangmanServiceImpl implements HangmanService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> newGame() {
-        return hangmanDAO.newGame();
+    public ResponseEntity<?> newGame(String user) {
+
+        return hangmanDAO.newGame(user);
     }
     @Override
     @Transactional
