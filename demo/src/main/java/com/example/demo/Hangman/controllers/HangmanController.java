@@ -19,7 +19,6 @@ import java.util.Map;
 class HangmanController {
     private HangmanService hangmanService;
     private FlashcardSetService flashcardSetService;
-    private UserDetailsService userDetailsService;
     @Autowired
     public HangmanController(HangmanService hangmanService, FlashcardSetService flashcardSetService) {
         this.hangmanService = hangmanService;
@@ -32,7 +31,20 @@ class HangmanController {
         String username = authentication.getName();
         System.out.println(username);
         List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
-        return hangmanService.newGame(flashcardSets,username);
+       //return flashcardSets;
+        return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
+        //return hangmanService.newGame(flashcardSets,username);
+    }
+
+    @PostMapping(value = "/hangman/new_game")
+    public ResponseEntity<?> newGame1(@RequestBody FlashcardSet flashcardSet) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println(username);
+       // List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
+        //return flashcardSets;
+       // return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
+        return hangmanService.newGame(flashcardSet,username);
     }
 
     @GetMapping("/hangman/current_games")

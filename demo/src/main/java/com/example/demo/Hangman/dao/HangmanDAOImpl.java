@@ -1,6 +1,7 @@
 package com.example.demo.Hangman.dao;
 
 import com.example.demo.CustomUserDetails;
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.exceptions.GameAlreadyOverException;
 import com.example.demo.Hangman.exceptions.GameDoesNotExistException;
 import com.example.demo.Hangman.exceptions.InvalidGuessException;
@@ -35,11 +36,11 @@ public class HangmanDAOImpl implements HangmanDAO {
     }
 
     @Override
-    public ResponseEntity<?> newGame(String user) {
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String user) {
         User userr = entityManager.
                 createQuery("FROM User u WHERE u.username = '"+user+"'", User.class).
                 getResultList().get(0);
-        HangmanGame newGame = new HangmanGame(listOfWords,userr);
+        HangmanGame newGame = new HangmanGame(flashcardSet,userr);
         userr.addHangmanGame(newGame);
         entityManager.persist(newGame);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);

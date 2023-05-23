@@ -26,9 +26,8 @@ public class HangmanServiceImpl implements HangmanService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> newGame(List<FlashcardSet> flashcardSets, String user) {
-
-        return hangmanDAO.newGame(user);
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet, String user) {
+        return hangmanDAO.newGame(flashcardSet,user);
     }
     @Override
     @Transactional
