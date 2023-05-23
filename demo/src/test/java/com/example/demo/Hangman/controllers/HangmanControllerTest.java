@@ -29,21 +29,22 @@ class HangmanControllerTest {
     @MockBean
     private HangmanService hangmanService;
 
-//    @Test
-//    public void get_games_from_hangmanservice() throws Exception {
-//        HangmanGame hangmanGame = new HangmanGame();
-//
-//        when(hangmanService.getAllCurrentGames()).thenReturn(List.of(hangmanGame));
-//
-//        mockmvc.perform(get("/hangman/current_games").contentType("application/json"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.[0].guessedWord").exists())
-//                .andExpect(jsonPath("$.[0].status").value("ACTIVE"))
-//                .andExpect(jsonPath("$.[0].guessesLeft").value(7))
-//                .andExpect(jsonPath("$.[0].id").exists())
-//                .andExpect(jsonPath("$.[1].id").doesNotExist());
-//
-//        verify(hangmanService,times(1)).getAllCurrentGames();
-//    }
+/*
+    @Test
+    public void get_games_from_hangmanservice() throws Exception {
+        HangmanGame hangmanGame = new HangmanGame();
+
+        when(hangmanService.getAllCurrentGames()).thenReturn(List.of(hangmanGame));
+
+        mockmvc.perform(get("/hangman/current_games").contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].guessedWord").exists())
+                .andExpect(jsonPath("$.[0].status").value("ACTIVE"))
+                .andExpect(jsonPath("$.[0].guessesLeft").value(7))
+                .andExpect(jsonPath("$.[0].id").exists())
+                .andExpect(jsonPath("$.[1].id").doesNotExist());
+
+        verify(hangmanService,times(1)).getAllCurrentGames();
+    }*/
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Hangman.dao;
 import com.example.demo.CustomUserDetails;
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.User;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public interface HangmanDAO {
 
-    public ResponseEntity<?> newGame(String user);
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side,String user);
 
     public List<HangmanGame> getAllCurrentGames();
 
