@@ -1,4 +1,5 @@
 package com.example.demo.Fiszki.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class FlashcardSet {
     @Column(name="name",nullable=false)
     private String name;
 
-    @OneToMany(mappedBy="flashcardSet")
+    @OneToMany(mappedBy = "flashcardSet")
+    @JsonManagedReference
     private List<Flashcard> flashcards;
 
     @Column(name="user",nullable = false)

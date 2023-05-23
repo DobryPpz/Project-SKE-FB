@@ -28,6 +28,7 @@ class HangmanControllerTest {
 
     @MockBean
     private HangmanService hangmanService;
+
 /*
     @Test
     public void get_games_from_hangmanservice() throws Exception {

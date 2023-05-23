@@ -1,4 +1,5 @@
 package com.example.demo.Fiszki.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,14 +18,15 @@ public class Flashcard {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="front")
+    @Column(name="front", columnDefinition = "NVARCHAR(512)")
     private String front;
 
-    @Column(name="back")
+    @Column(name="back", columnDefinition = "NVARCHAR(512)")
     private String back;
 
     @ManyToOne
-    @JoinColumn(name="flashcardset_id",nullable = false)
+    @JoinColumn(name = "set_id",nullable = false)
+    @JsonBackReference
     private FlashcardSet flashcardSet;
 
     public Flashcard(String front, String back, FlashcardSet flashcardSet) {
