@@ -1,4 +1,5 @@
 package com.example.demo.Hangman.controllers;
+import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.Hangman.service.HangmanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import java.util.Map;
 
 class HangmanController {
     private HangmanService hangmanService;
+    private FlashcardSetService flashcardSetService;
     @Autowired
-    public HangmanController(HangmanService hangmanService) {
+    public HangmanController(HangmanService hangmanService, FlashcardSetService flashcardSetService) {
         this.hangmanService = hangmanService;
+        this.flashcardSetService = flashcardSetService;
     }
 
     @GetMapping(value = "/hangman/new_game")
