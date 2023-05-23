@@ -25,26 +25,27 @@ class HangmanController {
         this.flashcardSetService = flashcardSetService;
     }
 
-    @GetMapping(value = "/hangman/new_game")
-    public ResponseEntity<?> newGame() {
+    @GetMapping(value = "/hangman/new")
+    public ResponseEntity<?> getAllFlashcardSetsOfUserToChooseFrom() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println(username);
+
         List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
-       //return flashcardSets;
         return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
-        //return hangmanService.newGame(flashcardSets,username);
+
     }
 
-    @PostMapping(value = "/hangman/new_game")
-    public ResponseEntity<?> newGame1(@RequestBody FlashcardSet flashcardSet) {
+    @PostMapping(value = "/hangman/new")
+    public ResponseEntity<?> newGame(@RequestBody Map<String,String> flashcardSetInfo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println(username);
-       // List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
-        //return flashcardSets;
-       // return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
-        return hangmanService.newGame(flashcardSet,username);
+
+        int flashcardSetId = Integer.parseInt(flashcardSetInfo.get("set_id"));
+        FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
+
+        String side = flashcardSetInfo.get("side");
+
+        return hangmanService.newGame(flashcardSet,side,username);
     }
 
     @GetMapping("/hangman/current_games")

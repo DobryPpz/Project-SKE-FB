@@ -37,34 +37,15 @@ public class HangmanGame {
     /*public HangmanGame() {
     }*/
 
-    /*public HangmanGame(List<String> listOfAllWords, int gameId){
-        this.gameId = gameId;
-        this.word = getRandomWord(listOfAllWords);
-        this.guessesLeft = MAX_NR_OF_TRIES;
-        this.guessedWord = getEmptyWord(this.word.length());
-        this.setStatus();
-    }*/
-    /*public HangmanGame(List<String> listOfAllWords,User user){
-        this.word = getRandomWord(listOfAllWords);
-        this.guessesLeft = MAX_NR_OF_TRIES;
-        this.guessedWord = getEmptyWord(this.word.length());
-        this.setStatus();
-        this.user = user;
-    } */
-    public HangmanGame(FlashcardSet flashcardSet, User user){
-        this.word = getRandomWord(flashcardSet);
+    public HangmanGame(FlashcardSet flashcardSet,String side, User user){
+        this.word = getRandomWord(flashcardSet,side);
         this.guessesLeft = MAX_NR_OF_TRIES;
         this.guessedWord = getEmptyWord(this.word.length());
         this.setStatus();
         this.user = user;
     }
 
-   /* public HangmanGame(){
-        this.word = getRandomWord(TempClassForWords.getWords());
-        this.guessesLeft = MAX_NR_OF_TRIES;
-        this.guessedWord = getEmptyWord(this.word.length());
-        this.setStatus();
-    }*/
+
 
     public int getId(){
         return gameId;
@@ -127,11 +108,13 @@ public class HangmanGame {
         this.setStatus();
     }
 
-    private static String getRandomWord(FlashcardSet flashcardSet){
+    private static String getRandomWord(FlashcardSet flashcardSet,String side){
         var flashcards = flashcardSet.getFlashcards();
         Random random = new Random();
         int index = random.nextInt(flashcards.size());
-        return flashcards.get(index).getFront();
+        if (side.equals("front")) return flashcards.get(index).getFront();
+        else return flashcards.get(index).getBack();
+
     }
 
     private static String getEmptyWord(int word_len){

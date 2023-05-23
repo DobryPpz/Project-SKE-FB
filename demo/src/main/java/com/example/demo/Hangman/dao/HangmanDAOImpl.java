@@ -36,11 +36,11 @@ public class HangmanDAOImpl implements HangmanDAO {
     }
 
     @Override
-    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String user) {
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side,String user) {
         User userr = entityManager.
                 createQuery("FROM User u WHERE u.username = '"+user+"'", User.class).
                 getResultList().get(0);
-        HangmanGame newGame = new HangmanGame(flashcardSet,userr);
+        HangmanGame newGame = new HangmanGame(flashcardSet,side,userr);
         userr.addHangmanGame(newGame);
         entityManager.persist(newGame);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);

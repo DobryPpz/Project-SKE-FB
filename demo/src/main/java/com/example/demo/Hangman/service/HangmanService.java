@@ -17,7 +17,7 @@ import java.util.Map;
 
 public interface HangmanService {
 
-    public ResponseEntity<?> newGame(FlashcardSet flashcardSet, String user);
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side, String user);
 
     public List<HangmanGame> getAllCurrentGames();
 
