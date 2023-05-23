@@ -1,6 +1,7 @@
 package com.example.demo.Hangman.service;
 
 import com.example.demo.CustomUserDetails;
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.dao.HangmanDAO;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.User;
@@ -25,7 +26,7 @@ public class HangmanServiceImpl implements HangmanService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> newGame(String user) {
+    public ResponseEntity<?> newGame(List<FlashcardSet> flashcardSets, String user) {
 
         return hangmanDAO.newGame(user);
     }

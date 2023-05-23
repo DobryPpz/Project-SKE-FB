@@ -2,6 +2,7 @@ package com.example.demo.Hangman.service;
 
 
 import com.example.demo.CustomUserDetails;
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.dao.HangmanDAO;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.User;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public interface HangmanService {
 
-    public ResponseEntity<?> newGame(String user);
+    public ResponseEntity<?> newGame(List<FlashcardSet> flashcardSets, String user);
 
     public List<HangmanGame> getAllCurrentGames();
 

@@ -33,6 +33,11 @@ public class FlashcardSetServiceImpl implements FlashcardSetService {
     }
 
     @Override
+    public List<FlashcardSet> findAllByUser(String username) {
+        return flashcardSetDAO.findAllByUser(username);
+    }
+
+    @Override
     @Transactional
     public void deleteById(int theId) {
         flashcardSetDAO.deleteById(theId);

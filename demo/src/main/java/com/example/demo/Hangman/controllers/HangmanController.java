@@ -1,4 +1,5 @@
 package com.example.demo.Hangman.controllers;
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.Hangman.service.HangmanService;
@@ -30,7 +31,8 @@ class HangmanController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         System.out.println(username);
-        return hangmanService.newGame(username);
+        List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
+        return hangmanService.newGame(flashcardSets,username);
     }
 
     @GetMapping("/hangman/current_games")

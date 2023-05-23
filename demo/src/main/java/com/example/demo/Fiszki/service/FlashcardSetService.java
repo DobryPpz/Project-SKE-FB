@@ -9,5 +9,6 @@ public interface FlashcardSetService {
     List<FlashcardSet> findAll();
     FlashcardSet findById(int theId);
     FlashcardSet save(FlashcardSet flashcardSet);
+    List<FlashcardSet> findAllByUser(String username);
     void deleteById(int theId);
 }
