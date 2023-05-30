@@ -1,106 +1,64 @@
 package com.example.demo.Wordle.controllers;
 
-import com.example.demo.Wordle.exceptions.GameAlreadyOverException;
-import com.example.demo.Wordle.exceptions.GameDoesNotExistException;
-import com.example.demo.Wordle.exceptions.InvalidGuessException;
+import com.example.demo.Fiszki.models.FlashcardSet;
+import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Wordle.models.WordleGame;
-import com.example.demo.Wordle.other.WordleWords;
-
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpSession;
+import com.example.demo.Wordle.service.WordleService;
+import com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 class WordleController {
+    private WordleService wordleService;
+    private FlashcardSetService flashcardSetService;
 
-    private List<String> listOfWords = WordleWords.getWords();
-    private @Autowired ServletContext servletContext;
-    private int idOfGame = 0;
-
-    @RequestMapping(value = "/wordle/new_game", method = RequestMethod.GET)
-    public WordleGame newGame(HttpSession session) {
-        idOfGame++;
-        WordleGame newGame = new WordleGame(listOfWords, idOfGame);
-        List<WordleGame> games = getAllCurrentGames(session);
-        games.add(newGame);
-        return newGame;
+    @Autowired
+    public WordleController(WordleService wordleService, FlashcardSetService flashcardSetService) {
+        this.wordleService = wordleService;
+        this.flashcardSetService = flashcardSetService;
     }
 
-    @RequestMapping("/wordle/current_games")
-    private List<WordleGame> getAllCurrentGames(HttpSession session) {
-        List<WordleGame> gamesInSession = (List<WordleGame>) session.getAttribute("gamesInSession");
-        if (gamesInSession == null) {
-            gamesInSession = new ArrayList<>();
-            session.setAttribute("gamesInSession", gamesInSession);
-        }
-        return gamesInSession;
+    @GetMapping(value = "/wordle/new_game")
+    public ResponseEntity<?> getAllFlashcardSetsOfUserToChooseFrom() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
+        return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/wordle/guess", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> makeGuess(@RequestBody Map<String, String> json, HttpSession session) throws Exception {
-        String gameID = json.get("game");
-        String guess = json.get("guess");
+    @PostMapping(value = "/wordle/new_game")
+    public ResponseEntity<?> newGame(@RequestBody Map<String, String> flashcardSetInfo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-        if (guess == null || guess.isEmpty() || guess.length() != 5) {
-            throw new InvalidGuessException(guess);
-        }
+        int flashcardSetId = Integer.parseInt(flashcardSetInfo.get("set_id"));
+        FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
 
-        WordleGame game = getGame(gameID, session);
-        if (game == null) {
-            throw new GameDoesNotExistException(gameID);
-        }
+        String side = flashcardSetInfo.get("side");
 
-        switch (game.getStatus()) {
-            case ACTIVE:
-                break;
-            case WON:
-                return gameOver(game);
-            case LOST:
-                return gameOver(game);
-        }
-
-        game.makeGuess(guess);
-
-        return new ResponseEntity<>(game, HttpStatus.OK);
+        return wordleService.newGame(flashcardSet, side, username);
     }
 
-    @ExceptionHandler(GameAlreadyOverException.class)
-    private ResponseEntity<String> gameOver(WordleGame game) {
-        String s = "Game is already complete - you " + game.getStatus() + ". The word was: " + game.getWord();
-        return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
+    @GetMapping("/wordle/current_games")
+    public List<WordleGame> getAllCurrentGames() {
+        return wordleService.getAllCurrentGames();
     }
 
-    @ExceptionHandler(GameDoesNotExistException.class)
-    private ResponseEntity<String> gameDoesntExist(WordleGame game) {
-        String s = "Game with given id " + game.getGameID() + " doesn't exist ";
-        return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
+    @GetMapping(path = "/wordle/current_games/{gameID}")
+    public ResponseEntity<?> getGivenGame(@PathVariable String gameID) {
+        return wordleService.getGivenGame(gameID);
     }
 
-    @ExceptionHandler(InvalidGuessException.class)
-    private ResponseEntity<String> guessIsNotValid(WordleGame game) {
-        String s = "This guess: " + game.getGuess() + " is not a valid guess";
-        return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
-    }
-
-    private WordleGame getGame(String id, HttpSession session) {
-        List<WordleGame> games = getAllCurrentGames(session);
-        for (WordleGame game : games) {
-            if (String.valueOf(game.getGameID()).equals(id)) {
-                return game;
-            }
-        }
-        return null;
-    }
-
-    private int calculateGuessesLeft(WordleGame game) {
-        return game.getMaxGuessCount() - game.getGuessCount();
+    @PostMapping(value = "/wordle/guess", headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> makeGuess(@RequestBody Map<String, String> jsonWithIDandGuess) throws Exception {
+        return wordleService.makeGuess(jsonWithIDandGuess);
     }
 }

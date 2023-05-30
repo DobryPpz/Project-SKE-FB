@@ -1,28 +1,58 @@
 package com.example.demo.Wordle.models;
 
+import com.example.demo.Fiszki.models.Flashcard;
+import com.example.demo.Fiszki.models.FlashcardSet;
+import com.example.demo.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
+
 
 import java.util.*;
 
+@Entity
+@Table(name = "wordle_games")
 @JsonPropertyOrder({"gameID", "status", "word", "guessesLeft", "guess", "hint", "notUsedLetters"})
 public class WordleGame {
-    private final int gameId;
-    private final String word;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
+    private int gameId;
+
+    @Column(name = "word", nullable = false)
+    private String word;
+
+    @Column(name = "guess")
     private String guess;
+
+    @Enumerated(EnumType.STRING)
     private WordleGameStatus status;
+
+    @ElementCollection
+    @CollectionTable(name = "letter_states",
+            joinColumns = @JoinColumn(name = "game_id"))
+    @MapKeyColumn(name = "letter")
+    @Column(name = "state")
     private Map<Character, LetterState> letterStates;
+
+    @Column(name = "guess_count")
     private int guessCount;
+
+    @Column(name = "max_guess_count")
     private final int maxGuessCount = 6;
 
-    public WordleGame(List<String> listOfWords, int gameId) {
-        this.gameId = gameId;
-        Random random = new Random();
-        this.word = getRandomWord(listOfWords);
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public WordleGame(FlashcardSet flashcardSet, String side, User user) {
+        this.word = getRandomWord(flashcardSet, side);
         this.guess = "";
         this.status = WordleGameStatus.ACTIVE;
         this.letterStates = initializeLetterStates();
         this.guessCount = 0;
+        this.user = user;
     }
 
     public int getGameID() {
@@ -116,11 +146,17 @@ public class WordleGame {
         }
     }
 
-    private static String getRandomWord(List<String> listOfWords) {
+    private static String getRandomWord(FlashcardSet flashcardSet, String side) {
+        List<Flashcard> flashcards = flashcardSet.getFlashcards();
         Random random = new Random();
-        int index = random.nextInt(listOfWords.size());
-        return listOfWords.get(index);
+        int index = random.nextInt(flashcards.size());
+        if (side.equals("front")) {
+            return flashcards.get(index).getFront().toLowerCase();
+        } else {
+            return flashcards.get(index).getBack().toLowerCase();
+        }
     }
+
 
     private Map<Character, LetterState> initializeLetterStates() {
         Map<Character, LetterState> letterStates = new HashMap<>();
@@ -130,5 +166,16 @@ public class WordleGame {
         }
 
         return letterStates;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setGuessedWord(char guess0) {
+    }
+
+    public void incIncorrectGuesses() {
+
     }
 }
