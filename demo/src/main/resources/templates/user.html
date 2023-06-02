@@ -19,5 +19,27 @@
   </div>
 </div>
 
+<div>
+  <div>
+    <h2>your fiszki</h2>
+  </div>
+
+  <div>
+    <table>
+      <tr th:each="flashcard: ${flashcards}">
+        <td th:text="${flashcard.getName()}"></td>
+        <td>
+          <p th:each="card: ${flashcard.getFlashcards()}">
+            <button th:text="${card.getFront()}"></button>
+            <button th:text="${card.getBack()}"></button>
+          </p>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+</div>
+
+
 </body>
 </html>

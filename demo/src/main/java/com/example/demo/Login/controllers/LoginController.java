@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.Login.controllers;
 
+import com.example.demo.Login.models.User;
+import com.example.demo.Login.dto.UserDto;
+import com.example.demo.Login.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

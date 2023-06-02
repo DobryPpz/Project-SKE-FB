@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Login.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

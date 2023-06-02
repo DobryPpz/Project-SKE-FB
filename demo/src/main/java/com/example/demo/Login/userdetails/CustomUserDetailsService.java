@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.Login.userdetails;
 
+import com.example.demo.Login.models.User;
+import com.example.demo.Login.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
