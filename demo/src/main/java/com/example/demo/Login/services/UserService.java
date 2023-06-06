@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.Login.services;
+
+import com.example.demo.Login.models.User;
+import com.example.demo.Login.dto.UserDto;
 
 import java.io.UnsupportedEncodingException;
 

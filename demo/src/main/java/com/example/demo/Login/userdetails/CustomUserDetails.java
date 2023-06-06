@@ -1,7 +1,6 @@
-package com.example.demo;
+package com.example.demo.Login.userdetails;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.example.demo.Login.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;

@@ -1,5 +1,7 @@
 package com.example.demo.Fiszki.service;
+
 import com.example.demo.Fiszki.models.Flashcard;
+
 import java.util.List;
 
 public interface FlashcardService {

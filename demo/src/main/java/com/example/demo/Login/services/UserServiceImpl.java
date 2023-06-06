@@ -1,5 +1,11 @@
-package com.example.demo;
+package com.example.demo.Login.services;
 
+import com.example.demo.Login.dto.UserDto;
+import com.example.demo.Login.models.Role;
+import com.example.demo.Login.models.RoleConstants;
+import com.example.demo.Login.models.User;
+import com.example.demo.Login.repository.RoleRepository;
+import com.example.demo.Login.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +27,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
     }
+
 
     @Override
     public void saveUser(UserDto userDto) {

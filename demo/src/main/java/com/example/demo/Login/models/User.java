@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.Login.models;
 
+import com.example.demo.Hangman.models.HangmanGame;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,11 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user",cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    List<HangmanGame> hangmanGames;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
@@ -40,4 +46,20 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
+
+    public List<HangmanGame> getHangmanGames() {
+        return hangmanGames;
+    }
+
+    public void setHangmanGames(List<HangmanGame> hangmanGames) {
+        this.hangmanGames = hangmanGames;
+    }
+
+    public void addHangmanGame(HangmanGame hangmanGame){
+        if(hangmanGames==null)
+            hangmanGames=new ArrayList<>();
+        hangmanGames.add(hangmanGame);
+        hangmanGame.setUser(this);
+    }
+
 }

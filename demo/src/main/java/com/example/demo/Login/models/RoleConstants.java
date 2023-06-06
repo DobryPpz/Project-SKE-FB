@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Login.models;
 
 public class RoleConstants {
     public interface Roles {

@@ -2,26 +2,51 @@ package com.example.demo.Hangman.models;
 import java.util.List;
 import java.util.Random;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.example.demo.Fiszki.models.FlashcardSet;
+import com.example.demo.Hangman.other.TempClassForWords;
+
+import com.example.demo.Login.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
+@Entity
+@Table(name = "hangman_games")
 public class HangmanGame {
 
-    private final int gameId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
+    private int gameId;
     //jeszcze kategoria slowa się przyda
-    private final String word;
+    @Column(name = "word",nullable = false)
+    private String word;
+    @Column(name = "guessed_word",nullable = false)
     private String guessedWord;
+    @Enumerated(EnumType.STRING)
     private HangmanGameStatus status;
-
+    @Column(name = "guesses_left",nullable = false)
     private int guessesLeft;
     private static final int MAX_NR_OF_TRIES = 7;
 
-    public HangmanGame(List<String> listOfAllWords, int gameId){
-        this.gameId = gameId;
-        this.word = getRandomWord(listOfAllWords);
+    @ManyToOne(cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public HangmanGame() {
+    }
+
+    public HangmanGame(FlashcardSet flashcardSet,String side, User user){
+        this.word = getRandomWord(flashcardSet,side);
         this.guessesLeft = MAX_NR_OF_TRIES;
         this.guessedWord = getEmptyWord(this.word.length());
         this.setStatus();
+        this.user = user;
     }
+
+
 
     public int getId(){
         return gameId;
@@ -44,6 +69,15 @@ public class HangmanGame {
         return status;
     }
 
+    @JsonIgnore
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setStatus(){
         if(word.equals(guessedWord)) {
             this.status = HangmanGameStatus.WON;
@@ -57,7 +91,7 @@ public class HangmanGame {
             }
         }
     }
-    public void incIncorrect_guesses(){
+    public void incIncorrectGuesses(){
         this.guessesLeft--;
         this.setStatus();
     }
@@ -75,10 +109,13 @@ public class HangmanGame {
         this.setStatus();
     }
 
-    private static String getRandomWord(List<String> listOfAllWords){
+    private static String getRandomWord(FlashcardSet flashcardSet,String side){
+        var flashcards = flashcardSet.getFlashcards();
         Random random = new Random();
-        int index = random.nextInt(listOfAllWords.size());
-        return listOfAllWords.get(index);
+        int index = random.nextInt(flashcards.size());
+        if (side.equals("front")) return flashcards.get(index).getFront();
+        else return flashcards.get(index).getBack();
+
     }
 
     private static String getEmptyWord(int word_len){

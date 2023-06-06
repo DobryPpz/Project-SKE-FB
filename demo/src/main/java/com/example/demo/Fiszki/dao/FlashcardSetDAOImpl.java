@@ -1,9 +1,10 @@
 package com.example.demo.Fiszki.dao;
+import com.example.demo.Fiszki.models.Flashcard;
 import com.example.demo.Fiszki.models.FlashcardSet;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -22,6 +23,15 @@ public class FlashcardSetDAOImpl implements FlashcardSetDAO {
                 createQuery("FROM FlashcardSet",FlashcardSet.class).
                 getResultList();
         return allFlashcardSets;
+    }
+
+    @Override
+    public List<FlashcardSet> findAllByUser(String username) {
+        TypedQuery<FlashcardSet> allSets = entityManager.createQuery(
+                "FROM FlashcardSet WHERE username=:username",FlashcardSet.class);
+        allSets.setParameter("username",username);
+        List<FlashcardSet> results = allSets.getResultList();
+        return results;
     }
 
     @Override
