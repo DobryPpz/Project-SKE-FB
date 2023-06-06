@@ -25,7 +25,7 @@ public class FlashcardSet {
     @Column(name="name",nullable=false)
     private String name;
 
-    @OneToMany(mappedBy = "flashcardSet")
+    @OneToMany(mappedBy = "flashcardSet",orphanRemoval = true)
     @JsonManagedReference
     private List<Flashcard> flashcards;
 
