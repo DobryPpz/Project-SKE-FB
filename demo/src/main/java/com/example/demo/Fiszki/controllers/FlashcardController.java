@@ -42,10 +42,15 @@ public class FlashcardController {
 
     @PostMapping("/set/flashcard")
     public FlashcardSet addFlashcardToSet(@RequestBody Map<String,String> flashcard){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         int flashcardSetId = Integer.parseInt(flashcard.get("set_id"));
         String front = flashcard.get("front");
         String back = flashcard.get("back");
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
+        if(flashcardSet==null || !username.equals(flashcardSet.getUsername())){
+            return null;
+        }
         Flashcard newFlashcard = new Flashcard(front,back,flashcardSet);
         flashcardSet.addFlashcard(newFlashcard);
         newFlashcard = flashcardService.save(newFlashcard);
