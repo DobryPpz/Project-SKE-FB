@@ -8,11 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-
+@RequestMapping("/user/hangman")
 class HangmanController {
     private HangmanService hangmanService;
     private FlashcardSetService flashcardSetService;
@@ -22,41 +24,62 @@ class HangmanController {
         this.flashcardSetService = flashcardSetService;
     }
 
-    @GetMapping(value = "/hangman/new")
+    @GetMapping(value = "/new")
     public ResponseEntity<?> getAllFlashcardSetsOfUserToChooseFrom() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String email = getEmailOfAuthenticatedUser();
 
-        List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(username);
+        List<FlashcardSet> flashcardSets = flashcardSetService.findAllByUser(email);
         return new ResponseEntity<>(flashcardSets, HttpStatus.OK);
 
     }
 
-    @PostMapping(value = "/hangman/new")
+    @PostMapping(value = "/new")
     public ResponseEntity<?> newGame(@RequestBody Map<String,String> flashcardSetInfo) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String email = getEmailOfAuthenticatedUser();
+        System.out.println(email);
 
         int flashcardSetId = Integer.parseInt(flashcardSetInfo.get("set_id"));
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
 
         String side = flashcardSetInfo.get("side");
 
-        return hangmanService.newGame(flashcardSet,side,username);
+        return hangmanService.newGame(flashcardSet,side,email);
     }
 
-    @GetMapping("/hangman/current_games")
-    public List<HangmanGame> getAllCurrentGames() {
+    @GetMapping("/games")
+    public List<HangmanGame> getAllGames() {
 
-        return hangmanService.getAllCurrentGames();
+        return hangmanService.getAllCurrentGames(getEmailOfAuthenticatedUser());
     }
-    @GetMapping(path = "/hangman/current_games/{gameID}")
+    @GetMapping("/games/won")
+    public List<HangmanGame> getAllWonGames() {
+
+        return hangmanService.getAllWonGames(getEmailOfAuthenticatedUser());
+    }
+    @GetMapping("/games/lost")
+    public List<HangmanGame> getAllLostGames() {
+
+        return hangmanService.getAllLostGames(getEmailOfAuthenticatedUser());
+    }
+    @GetMapping("/games/active")
+    public List<HangmanGame> getAllActiveGames() {
+
+        return hangmanService.getAllActiveGames(getEmailOfAuthenticatedUser());
+    }
+    @GetMapping(path = "/games/{gameID}")
     public ResponseEntity<?> getGivenGame(@PathVariable String gameID)  {
-        return hangmanService.getGivenGame(gameID);
+        return hangmanService.getGivenGame(gameID,getEmailOfAuthenticatedUser());
     }
-    @PostMapping(value = "/hangman/guess", headers="Accept=application/json", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/guess", headers="Accept=application/json", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> makeGuess (@RequestBody Map<String,String> jsonWithIDandGuess) throws Exception {
-        return hangmanService.makeGuess(jsonWithIDandGuess);
+        return hangmanService.makeGuess(jsonWithIDandGuess,getEmailOfAuthenticatedUser());
+    }
+
+    public String getEmailOfAuthenticatedUser()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return email;
     }
 
 }

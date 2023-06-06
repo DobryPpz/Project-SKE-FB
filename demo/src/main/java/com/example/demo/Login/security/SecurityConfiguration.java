@@ -24,7 +24,6 @@ public class SecurityConfiguration {
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                        //.requestMatchers("/hangman/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )

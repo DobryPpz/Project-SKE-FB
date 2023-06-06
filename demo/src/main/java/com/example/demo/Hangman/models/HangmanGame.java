@@ -2,10 +2,11 @@ package com.example.demo.Hangman.models;
 import java.util.List;
 import java.util.Random;
 
-import com.example.demo.CustomUserDetails;
+
 import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.other.TempClassForWords;
-import com.example.demo.User;
+
+import com.example.demo.Login.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,8 +35,8 @@ public class HangmanGame {
     @JoinColumn(name="user_id")
     private User user;
 
-    /*public HangmanGame() {
-    }*/
+    public HangmanGame() {
+    }
 
     public HangmanGame(FlashcardSet flashcardSet,String side, User user){
         this.word = getRandomWord(flashcardSet,side);

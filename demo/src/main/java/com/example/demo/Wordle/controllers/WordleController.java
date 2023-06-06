@@ -4,6 +4,7 @@ import com.example.demo.Wordle.exceptions.GameAlreadyOverException;
 import com.example.demo.Wordle.exceptions.GameDoesNotExistException;
 import com.example.demo.Wordle.exceptions.InvalidGuessException;
 import com.example.demo.Wordle.models.WordleGame;
+import com.example.demo.Wordle.models.WordleGameStatus;
 import com.example.demo.Wordle.other.WordleWords;
 
 import jakarta.servlet.ServletContext;
