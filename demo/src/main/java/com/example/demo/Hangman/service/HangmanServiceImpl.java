@@ -23,23 +23,41 @@ public class HangmanServiceImpl implements HangmanService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side, String user) {
-        return hangmanDAO.newGame(flashcardSet,side,user);
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side, String email) {
+        return hangmanDAO.newGame(flashcardSet,side,email);
     }
     @Override
     @Transactional
-    public List<HangmanGame> getAllCurrentGames() {
-        return hangmanDAO.getAllCurrentGames();
+    public List<HangmanGame> getAllCurrentGames(String email) {
+        return hangmanDAO.getAllCurrentGames(email);
     }
     @Override
     @Transactional
-    public ResponseEntity<?> getGivenGame(String gameID)  {
-        return hangmanDAO.getGivenGame(gameID);
+    public ResponseEntity<?> getGivenGame(String gameID,String email)  {
+        return hangmanDAO.getGivenGame(gameID,email);
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess) throws Exception {
-        return hangmanDAO.makeGuess(jsonWithIDandGuess);
+    public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess,String email) throws Exception {
+        return hangmanDAO.makeGuess(jsonWithIDandGuess,email);
+    }
+
+    @Override
+    @Transactional
+    public List<HangmanGame> getAllWonGames(String email) {
+        return hangmanDAO.getAllWonGames(email);
+    }
+
+    @Override
+    @Transactional
+    public List<HangmanGame> getAllLostGames(String email) {
+        return hangmanDAO.getAllLostGames(email);
+    }
+
+    @Override
+    @Transactional
+    public List<HangmanGame> getAllActiveGames(String email) {
+        return hangmanDAO.getAllActiveGames(email);
     }
 }

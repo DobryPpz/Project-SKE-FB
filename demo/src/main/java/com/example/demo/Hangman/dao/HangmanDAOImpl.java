@@ -4,10 +4,12 @@ import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.exceptions.GameAlreadyOverException;
 import com.example.demo.Hangman.exceptions.GameDoesNotExistException;
 import com.example.demo.Hangman.exceptions.InvalidGuessException;
+import com.example.demo.Hangman.exceptions.NotYourGame;
 import com.example.demo.Hangman.models.HangmanGame;
-import com.example.demo.Hangman.other.TempClassForWords;
+import com.example.demo.Hangman.models.HangmanGameStatus;
 import com.example.demo.Login.models.User;
 import jakarta.persistence.EntityManager;
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Repository
 public class HangmanDAOImpl implements HangmanDAO {
-    private List<String> listOfWords = TempClassForWords.getWords();
+    //private List<String> listOfWords = TempClassForWords.getWords();
 
 
     private EntityManager entityManager;
@@ -29,37 +32,57 @@ public class HangmanDAOImpl implements HangmanDAO {
         this.entityManager = entityManager;
     }
 
-    @Override
-    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side,String user) {
-        User userr = entityManager.
-                createQuery("FROM User u WHERE u.username = '"+user+"'", User.class).
+    private User getUserFromEmail(String email)
+    {
+        User user = entityManager.
+                createQuery("FROM User u WHERE u.email = '"+email+"'", User.class).
                 getResultList().get(0);
-        HangmanGame newGame = new HangmanGame(flashcardSet,side,userr);
-        userr.addHangmanGame(newGame);
+        return user;
+    }
+
+    @Override
+    public ResponseEntity<?> newGame(FlashcardSet flashcardSet,String side,String email) {
+        User user = getUserFromEmail(email);
+        HangmanGame newGame = new HangmanGame(flashcardSet,side,user);
+        user.addHangmanGame(newGame);
         entityManager.persist(newGame);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);
     }
     @Override
-    public List<HangmanGame> getAllCurrentGames() {
-        List<HangmanGame> gamesInSession = entityManager.
-                        createQuery("FROM HangmanGame",HangmanGame.class).
-                        getResultList();
-        return gamesInSession;
+    public List<HangmanGame> getAllCurrentGames(String email) {
+        User user = getUserFromEmail(email);
+        var query = entityManager.
+                        createQuery("FROM HangmanGame h WHERE h.user.id = (:userId)",HangmanGame.class);
+        query.setParameter("userId",user.getId());
+
+        List<HangmanGame> games = query.getResultList();
+
+        return games;
     }
     @Override
-    public ResponseEntity<?> getGivenGame(String gameID)  {
+    public ResponseEntity<?> getGivenGame(String gameID,String email)  {
         HangmanGame game = entityManager.find(HangmanGame.class,gameID);
         if (game == null) return gameDoesntExist(gameID);
+
+        User user = getUserFromEmail(email);
+
+        if (!Objects.equals(user.getId(), game.getUser().getId())) return notYourGame();
+
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess) throws Exception {
+    public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess, String email) throws Exception {
+
         String gameID = jsonWithIDandGuess.get("game");
         String guess = jsonWithIDandGuess.get("guess");
         if (guess.length() == 0) return guessIsNotValid(guess);
 
         HangmanGame game = entityManager.find(HangmanGame.class,gameID);
+
+        User user = getUserFromEmail(email);
+
+        if (!Objects.equals(user.getId(), game.getUser().getId())) return notYourGame();
 
         if (game == null) return gameDoesntExist(gameID);
 
@@ -73,6 +96,32 @@ public class HangmanDAOImpl implements HangmanDAO {
 
         checkIfGuessIsRight(game,guess);
         return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    private List<HangmanGame> getAllGamesOfStatus(String email,HangmanGameStatus hangmanGameStatus)
+    {
+        User user = getUserFromEmail(email);
+        var query = entityManager.
+                createQuery("FROM HangmanGame h WHERE h.user.id = (:userId) AND h.status = (:gameStatus)",HangmanGame.class);
+        query.setParameter("userId",user.getId()).setParameter("gameStatus",hangmanGameStatus);
+
+        List<HangmanGame> games = query.getResultList();
+
+        return games;
+    }
+    @Override
+    public List<HangmanGame> getAllWonGames(String email) {
+        return getAllGamesOfStatus(email,HangmanGameStatus.WON);
+    }
+
+    @Override
+    public List<HangmanGame> getAllLostGames(String email) {
+        return getAllGamesOfStatus(email,HangmanGameStatus.LOST);
+    }
+
+    @Override
+    public List<HangmanGame> getAllActiveGames(String email) {
+        return getAllGamesOfStatus(email,HangmanGameStatus.ACTIVE);
     }
 
     @ExceptionHandler(GameAlreadyOverException.class)
@@ -92,6 +141,12 @@ public class HangmanDAOImpl implements HangmanDAO {
     {
         String s = "This guess: "+guess+" is not valid guess xd ";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(NotYourGame.class)
+    private ResponseEntity<String> notYourGame()
+    {
+        String s = "This is not your game!";
+        return new ResponseEntity<>(s, HttpStatus.FORBIDDEN);
     }
     public void checkIfGuessIsRight(HangmanGame game,String guess)
     {

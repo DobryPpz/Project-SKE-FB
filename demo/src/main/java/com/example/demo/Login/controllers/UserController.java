@@ -1,5 +1,7 @@
 package com.example.demo.Login.controllers;
 
+
+import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Login.services.UserService;
 import lombok.AllArgsConstructor;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     UserService userService;
+
     FlashcardSetService flashcardSetService;
 
-    @GetMapping("/{id}")
+    //@GetMapping("/{id}")
+    @GetMapping("/")
     public String registrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         long id = userService.findUserByEmail(authentication.getName()).getId();
