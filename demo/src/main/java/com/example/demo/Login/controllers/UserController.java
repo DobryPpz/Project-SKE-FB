@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping("/user")
@@ -29,4 +32,12 @@ public class UserController {
         model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
         return "user";
     }
+
+    @GetMapping("/flashcards/set/flashcard")
+    public String addFlashcardToSet(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
+        return "addflashcard";
+    }
+
 }
