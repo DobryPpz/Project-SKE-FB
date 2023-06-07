@@ -25,7 +25,7 @@ public class UserController {
     FlashcardSetService flashcardSetService;
 
     //@GetMapping("/{id}")
-    @GetMapping("/")
+    @GetMapping("")
     public String registrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         long id = userService.findUserByEmail(authentication.getName()).getId();
@@ -38,6 +38,21 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
         return "addflashcard";
+    }
+
+    @GetMapping("/menu")
+    public String seeMenu() {
+        return "gamesmenu";
+    }
+
+    @GetMapping("/hangman")
+    public String hangmanGame() {
+        return "hangman";
+    }
+
+    @GetMapping("/wordle")
+    public String wordleGame() {
+        return "wordle";
     }
 
 }
