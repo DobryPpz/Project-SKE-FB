@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping("/user")
@@ -22,11 +25,34 @@ public class UserController {
     FlashcardSetService flashcardSetService;
 
     //@GetMapping("/{id}")
-    @GetMapping("/")
+    @GetMapping("")
     public String registrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         long id = userService.findUserByEmail(authentication.getName()).getId();
         model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
         return "user";
     }
+
+    @GetMapping("/flashcards/set/flashcard")
+    public String addFlashcardToSet(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
+        return "addflashcard";
+    }
+
+    @GetMapping("/menu")
+    public String seeMenu() {
+        return "gamesmenu";
+    }
+
+    @GetMapping("/hangman")
+    public String hangmanGame() {
+        return "hangman";
+    }
+
+    @GetMapping("/wordle")
+    public String wordleGame() {
+        return "wordle";
+    }
+
 }

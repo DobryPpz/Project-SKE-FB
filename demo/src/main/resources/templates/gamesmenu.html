@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>Menu</title>
+</head>
+<body>
+
+    <h1>
+        Games menu!
+    </h1>
+
+    <div class="Games list">
+      <a th:href="@{/user/hangman}">Hangman</a>
+      <a th:href="@{/user/wordle}">Wordle</a>
+    </div>
+
+    <a th:href="@{/user}">Go back</a>
+</body>
+
+<script>
+
+
+</script>
+
+</html>
