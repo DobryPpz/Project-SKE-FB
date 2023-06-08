@@ -51,13 +51,13 @@ public class FlashcardController {
         int flashcardSetId = Integer.parseInt(flashcardSetMap.get("set_id"));
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
         if(flashcardSet==null){
-            return new ResponseEntity<>("the set with that id does not exist",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("\"the set with that id does not exist\"",HttpStatus.NOT_FOUND);
         }
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("you don't have permission to do that",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
         }
         flashcardSetService.deleteById(flashcardSetId);
-        return new ResponseEntity<>("set successfully deleted",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("\"set successfully deleted\"",HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/set/flashcard")
