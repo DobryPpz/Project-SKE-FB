@@ -70,7 +70,7 @@ class HangmanController {
     public ResponseEntity<?> getGivenGame(@PathVariable String gameID)  {
         return hangmanService.getGivenGame(gameID,getEmailOfAuthenticatedUser());
     }
-    @PostMapping(value = "/guess", headers="Accept=application/json", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/guess", headers="Accept=application/json", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> makeGuess (@RequestBody Map<String,String> jsonWithIDandGuess) throws Exception {
         return hangmanService.makeGuess(jsonWithIDandGuess,getEmailOfAuthenticatedUser());
     }

@@ -74,7 +74,7 @@ public class HangmanDAOImpl implements HangmanDAO {
     @Override
     public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess, String email) throws Exception {
 
-        String gameID = jsonWithIDandGuess.get("game");
+        String gameID = jsonWithIDandGuess.get("game_id");
         String guess = jsonWithIDandGuess.get("guess");
         if (guess.length() == 0) return guessIsNotValid(guess);
 

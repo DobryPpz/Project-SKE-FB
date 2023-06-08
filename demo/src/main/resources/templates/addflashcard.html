@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add flashcard</title>
+</head>
+<body>
+<form id="form">
+<div>
+  <label>Front</label>
+  <input id="front" name="front" placeholder="Enter flashcard's front" type="email">
+</div>
+<div>
+  <label>Back</label>
+  <input id="back" name="back" placeholder="Enter flashcard's back">
+</div>
+<div>
+  <label>setName</label>
+  <input id="set" name="set" placeholder="Enter set's id">
+</div>
+<div>
+  <button type="submit" onclick=button()>Add flashcard</button>
+  or <a href="/user">Back</a>
+</div>
+</form>
+
+<div>
+    <table>
+        <tr th:each="flashcard: ${flashcards}">
+            <td th:text="${flashcard.getId()}"></td>
+            <td>-></td>
+            <td th:text="${flashcard.getName()}"></td>
+
+        </tr>
+    </table>
+</div>
+
+
+
+<script>
+    function button() {
+        async function submit() {
+            const front1 = document.getElementById('front').value;
+            const back1 = document.getElementById('back').value;
+            const set1 = document.getElementById('set').value;
+            console.log(front1);
+
+            if(!front1 || !back1 || !set1) {
+                return;
+            }
+
+            const data = {
+                front: `${front1}`,
+                back: `${back1}`,
+                set_id: `${set1}`
+            }
+
+            console.log(JSON.stringify(data));
+
+            const endpoint = new URL(`http://localhost:8080/user/flashcards/set/flashcard`);
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                return response.json();
+                // console.log("Success:", result);
+                // return result[0];
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        submit();
+    }
+
+</script>
+
+
+
+</body>
+</html>

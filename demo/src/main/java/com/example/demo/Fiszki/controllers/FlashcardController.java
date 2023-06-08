@@ -4,6 +4,7 @@ import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardService;
 import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Fiszki.service.FlashcardSetServiceImpl;
+import com.example.demo.Login.services.UserService;
 import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,12 @@ import java.util.Map;
 public class FlashcardController {
     private FlashcardService flashcardService;
     private FlashcardSetService flashcardSetService;
+    private UserService userService;
     @Autowired
-    public FlashcardController(FlashcardService flashcardService, FlashcardSetService flashcardSetService){
+    public FlashcardController(FlashcardService flashcardService, FlashcardSetService flashcardSetService, UserService userService){
         this.flashcardService = flashcardService;
         this.flashcardSetService = flashcardSetService;
+        this.userService = userService;
     }
 
     @GetMapping("/set")
@@ -61,9 +64,9 @@ public class FlashcardController {
     }
 
     @PostMapping("/set/flashcard")
-    public ResponseEntity<?> addFlashcardToSet(@RequestBody Map<String,String> flashcardMap){
+    public ResponseEntity<?> addFlashcardToSet(@RequestBody Map<String,String> flashcardMap ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = userService.findUserByEmail(authentication.getName()).getUsername();
         int flashcardSetId = Integer.parseInt(flashcardMap.get("set_id"));
         String front = flashcardMap.get("front");
         String back = flashcardMap.get("back");
@@ -77,7 +80,7 @@ public class FlashcardController {
         Flashcard newFlashcard = new Flashcard(front,back,flashcardSet);
         flashcardSet.addFlashcard(newFlashcard);
         newFlashcard = flashcardService.save(newFlashcard);
-        return new ResponseEntity<>("flashcard successfully added",HttpStatus.OK);
+        return new ResponseEntity<>("\"flashcard successfully added\"",HttpStatus.OK);
     }
 
     @PutMapping("/set/flashcard")
