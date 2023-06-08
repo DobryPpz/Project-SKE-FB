@@ -32,6 +32,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade =
             {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<HangmanGame> hangmanGames;
+
+    @OneToMany(mappedBy = "user",cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<WordleGame> wordleGames;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
