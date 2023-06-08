@@ -1,28 +1,47 @@
 package com.example.demo.Wordle.models;
 
+import com.example.demo.Fiszki.models.FlashcardSet;
+import com.example.demo.Login.models.User;
+import com.example.demo.Wordle.models.WordleGame;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.*;
 
-@JsonPropertyOrder({"gameID", "status", "word", "guessesLeft", "guess", "hint", "notUsedLetters"})
+//@JsonPropertyOrder({"gameID", "status", "word", "guessesLeft", "guess", "hint", "notUsedLetters"})
+@Entity
+@Table(name = "wordle_games")
 public class WordleGame {
-    private final int gameId;
-    private final String word;
-    private String guess;
-    private WordleGameStatus status;
-    private Map<Character, LetterState> letterStates;
-    private int guessCount;
-    private final int maxGuessCount = 6;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
+    private int gameId;
 
-    public WordleGame(List<String> listOfWords, int gameId) {
-        this.gameId = gameId;
-        Random random = new Random();
-        this.word = getRandomWord(listOfWords);
-        this.guess = "";
-        this.status = WordleGameStatus.ACTIVE;
-        this.letterStates = initializeLetterStates();
-        this.guessCount = 0;
+    @Column(name = "word",nullable = false)
+    private String word;
+
+    @Column(name = "guess",nullable = false)
+    private String guess;
+
+    @Enumerated(EnumType.STRING)
+    private WordleGameStatus status;
+
+    @Column(name = "guessCount",nullable = false)
+    private int guessCount;
+
+    private static final int maxGuessCount = 6;
+
+    @ManyToOne(cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public WordleGame(FlashcardSet flashcardSet, String side, User user){
+        this.word = getRandomWord(flashcardSet, side);
+        this.guess = getEmptyWord(this.word.length());
+        this.setStatus();
+        this.user = user;
     }
 
     public int getGameID() {
@@ -41,12 +60,26 @@ public class WordleGame {
         return status;
     }
 
+    public void setStatus(){
+        if(word.equals(guess)) {
+            this.status = WordleGameStatus.WON;
+        }
+        else{
+            if(guessCount > 0) {
+                this.status = WordleGameStatus.ACTIVE;
+            }
+            if(guessCount <= 0){
+                this.status = WordleGameStatus.LOST;
+            }
+        }
+    }
+
     public Set<Character> getNotUsedLetters() {
         Set<Character> notUsedLetters = new HashSet<>();
 
-        for (Map.Entry<Character, LetterState> entry : letterStates.entrySet()) {
-            if (entry.getValue() == LetterState.NOT_USED) {
-                notUsedLetters.add(entry.getKey());
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (!guess.contains(Character.toString(c))) {
+                notUsedLetters.add(c);
             }
         }
 
@@ -69,18 +102,19 @@ public class WordleGame {
 
     public List<String> getHint() {
         List<String> hint = new ArrayList<>();
+
         for (int i = 0; i < guess.length(); i++) {
             char c = guess.charAt(i);
-            if (letterStates.containsKey(c)) {
-                if (word.charAt(i) == c) {
-                    hint.add(c + " - GREEN");
-                } else if (word.contains(Character.toString(c))) {
-                    hint.add(c + " - YELLOW");
-                } else {
-                    hint.add(c + " - GREY");
-                }
+
+            if (word.charAt(i) == c) {
+                hint.add(c + " - GREEN");
+            } else if (word.contains(Character.toString(c))) {
+                hint.add(c + " - YELLOW");
+            } else {
+                hint.add(c + " - GREY");
             }
         }
+
         return hint;
     }
 
@@ -92,43 +126,34 @@ public class WordleGame {
         this.guessCount++;
         this.guess = guess;
 
-        for (int i = 0; i < guess.length(); i++) {
-            char c = guess.charAt(i);
-            if (letterStates.containsKey(c) && letterStates.get(c) != LetterState.NOT_USED) {
-                continue;
-            }
-
-            if (word.contains(Character.toString(c))) {
-                if (guess.charAt(i) == word.charAt(i)) {
-                    letterStates.put(c, LetterState.GREEN);
-                } else {
-                    letterStates.put(c, LetterState.YELLOW);
-                }
-            } else {
-                letterStates.put(c, LetterState.GREY);
-            }
-        }
-
         if (guess.equals(word)) {
             status = WordleGameStatus.WON;
-        } else if (guessCount + 1 > maxGuessCount) {
+        } else if (guessCount >= maxGuessCount) {
             status = WordleGameStatus.LOST;
         }
     }
 
-    private static String getRandomWord(List<String> listOfWords) {
+    private static String getRandomWord(FlashcardSet flashcardSet,String side){
+        var flashcards = flashcardSet.getFlashcards();
         Random random = new Random();
-        int index = random.nextInt(listOfWords.size());
-        return listOfWords.get(index);
+        int index = random.nextInt(flashcards.size());
+        if (side.equals("front")) return flashcards.get(index).getFront();
+        else return flashcards.get(index).getBack();
     }
 
-    private Map<Character, LetterState> initializeLetterStates() {
-        Map<Character, LetterState> letterStates = new HashMap<>();
-
-        for (char c = 'a'; c <= 'z'; c++) {
-            letterStates.put(c, LetterState.NOT_USED);
+    private static String getEmptyWord(int word_len){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < word_len; i++) {
+            sb.append("_");
         }
+        return sb.toString();
+    }
 
-        return letterStates;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
