@@ -1,6 +1,8 @@
 package com.example.demo.Wordle.dao;
 
 import com.example.demo.Fiszki.models.FlashcardSet;
+import com.example.demo.Hangman.models.HangmanGame;
+import com.example.demo.Wordle.exceptions.NotYourGame;
 import com.example.demo.Wordle.exceptions.GameAlreadyOverException;
 import com.example.demo.Wordle.exceptions.GameDoesNotExistException;
 import com.example.demo.Wordle.exceptions.InvalidGuessException;
@@ -58,10 +60,12 @@ public class WordleDAOImpl implements WordleDAO {
 
     @Override
     public ResponseEntity<?> getGivenGame(String gameID, String email) {
-        WordleGame game = entityManager.find(WordleGame.class, gameID);
+        WordleGame game = entityManager.find(WordleGame.class,gameID);
         if (game == null) return gameDoesntExist(gameID);
 
         User user = getUserFromEmail(email);
+
+        if (!Objects.equals(user.getId(), game.getUser().getId())) return notYourGame();
 
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
@@ -77,6 +81,8 @@ public class WordleDAOImpl implements WordleDAO {
 
         User user = getUserFromEmail(email);
 
+        if (!Objects.equals(user.getId(), game.getUser().getId())) return notYourGame();
+
         if (game == null) return gameDoesntExist(gameID);
 
         switch (game.getStatus()) {
@@ -87,6 +93,7 @@ public class WordleDAOImpl implements WordleDAO {
                 return gameOver(game);
         }
 
+        checkIfGuessIsRight(game,guess);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
@@ -132,5 +139,21 @@ public class WordleDAOImpl implements WordleDAO {
     private ResponseEntity<String> guessIsNotValid(String guess) {
         String s = "This guess: " + guess + " is not valid guess";
         return new ResponseEntity<>(s, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotYourGame.class)
+    private ResponseEntity<String> notYourGame()
+    {
+        String s = "This is not your game!";
+        return new ResponseEntity<>(s, HttpStatus.FORBIDDEN);
+    }
+
+    public void checkIfGuessIsRight(WordleGame game, String guess)
+    {
+        char guess0 = Character.toLowerCase(guess.charAt(0));
+        if (game.getWord().contains(String.valueOf(guess0))){
+            game.setGuessedWord(guess0);
+        }
+        else game.incIncorrectGuesses();
     }
 }
