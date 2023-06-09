@@ -152,8 +152,9 @@ public class WordleDAOImpl implements WordleDAO {
     {
         char guess0 = Character.toLowerCase(guess.charAt(0));
         if (game.getWord().contains(String.valueOf(guess0))){
-            game.setGuessedWord(guess0);
+            game.setGuessedWord(guess);
         }
-        else game.incIncorrectGuesses();
+        game.guessesLeft--;
+        game.setStatus();
     }
 }
