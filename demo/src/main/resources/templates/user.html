@@ -10,7 +10,7 @@
 <div>
   <div>
     <div>
-      <h1>User Details</h1>
+      <h1>Welcome!</h1>
       <div>Username: <span sec:authentication="principal.username"/></div>
       <div> Roles: <span sec:authentication="principal.authorities"/></div>
 
@@ -21,7 +21,7 @@
 
 <div>
   <div>
-    <h2>your fiszki</h2>
+    <h2>Your flashcards:</h2>
   </div>
 
   <div>
@@ -32,6 +32,7 @@
           <p th:each="card: ${flashcard.getFlashcards()}">
             <button th:text="${card.getFront()}"></button>
             <button th:text="${card.getBack()}"></button>
+
           </p>
         </td>
 
@@ -39,7 +40,8 @@
     </table>
   </div>
 
-  <div><a th:href="@{/user/flashcards/set/flashcard}">Addflashcard</a></div>
+  <div><a th:href="@{/user/flashcards/set/flashcard}">Add flashcard</a></div>
+  <div><a th:href="@{/user/flashcards/add_flashcard_set}">Create flashcard set</a></div>
   <div><a th:href="@{/user/menu}">Games menu</a></div>
 </div>
 

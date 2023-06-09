@@ -40,7 +40,7 @@ public class FlashcardController {
     @PostMapping("/set")
     public FlashcardSet addFlashcardSet(@RequestBody Map<String,String> flashcardSetMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = userService.findUserByEmail(authentication.getName()).getUsername();
         String name = flashcardSetMap.get("name");
         FlashcardSet flashcardSet = new FlashcardSet(name,username);
         FlashcardSet dbSet = flashcardSetService.save(flashcardSet);
