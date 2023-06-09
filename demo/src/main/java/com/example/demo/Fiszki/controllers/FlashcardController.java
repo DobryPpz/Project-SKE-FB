@@ -38,13 +38,13 @@ public class FlashcardController {
     }
 
     @PostMapping("/set")
-    public FlashcardSet addFlashcardSet(@RequestBody Map<String,String> flashcardSetMap){
+    public ResponseEntity<?> addFlashcardSet(@RequestBody Map<String,String> flashcardSetMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = userService.findUserByEmail(authentication.getName()).getUsername();
+        String username = authentication.getName();
         String name = flashcardSetMap.get("name");
         FlashcardSet flashcardSet = new FlashcardSet(name,username);
         FlashcardSet dbSet = flashcardSetService.save(flashcardSet);
-        return dbSet;
+        return new ResponseEntity<>("\"flashcard set added\"",HttpStatus.OK);
     }
 
     @DeleteMapping("/set")
@@ -66,16 +66,16 @@ public class FlashcardController {
     @PostMapping("/set/flashcard")
     public ResponseEntity<?> addFlashcardToSet(@RequestBody Map<String,String> flashcardMap ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = userService.findUserByEmail(authentication.getName()).getUsername();
+        String username = authentication.getName();
         int flashcardSetId = Integer.parseInt(flashcardMap.get("set_id"));
         String front = flashcardMap.get("front");
         String back = flashcardMap.get("back");
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
         if(flashcardSet==null){
-            return new ResponseEntity<>("the set with that id does not exist",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("\"the set with that id does not exist\"",HttpStatus.NOT_FOUND);
         }
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("you don't have permission to do that",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
         }
         Flashcard newFlashcard = new Flashcard(front,back,flashcardSet);
         flashcardSet.addFlashcard(newFlashcard);
@@ -90,11 +90,11 @@ public class FlashcardController {
         int flashcardId = Integer.parseInt(flashcardMap.get("id"));
         Flashcard flashcard = flashcardService.findById(flashcardId);
         if(flashcard==null){
-            return new ResponseEntity<>("the flashcard with that id does not exist",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("\"the flashcard with that id does not exist\"",HttpStatus.NOT_FOUND);
         }
         FlashcardSet flashcardSet = flashcard.getFlashcardSet();
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("you don't have permission to do that",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
         }
         String changedFront = flashcardMap.get("front");
         String changedBack = flashcardMap.get("back");
@@ -105,7 +105,7 @@ public class FlashcardController {
             flashcard.setBack(changedBack);
         }
         Flashcard changedFlashcard = flashcardService.save(flashcard);
-        return new ResponseEntity<>("flashcard changed",HttpStatus.OK);
+        return new ResponseEntity<>("\"flashcard changed\"",HttpStatus.OK);
     }
 
     @DeleteMapping("/set/flashcard")
@@ -115,13 +115,13 @@ public class FlashcardController {
         int flashcardId = Integer.parseInt(flashcardMap.get("id"));
         Flashcard flashcard = flashcardService.findById(flashcardId);
         if(flashcard==null){
-            return new ResponseEntity<>("the flashcard with that id does not exist",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("\"the flashcard with that id does not exist\"",HttpStatus.NOT_FOUND);
         }
         FlashcardSet flashcardSet = flashcard.getFlashcardSet();
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("you don't have permission to do that",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
         }
         flashcardService.deleteById(flashcardId);
-        return new ResponseEntity<>("flashcard successfully deleted",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("\"flashcard successfully deleted\"",HttpStatus.NO_CONTENT);
     }
 }
