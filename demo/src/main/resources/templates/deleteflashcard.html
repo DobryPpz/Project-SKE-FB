@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete flashcard</title>
+</head>
+<body>
+<form id="form">
+  <div>
+    <label>Set Id</label>
+    <input id="fid" name="fid" placeholder="Enter flashcard's id">
+  </div>
+
+  <div>
+    <button type="submit" onclick=button()>Delete flashcard</button>
+    or <a href="/user">Back</a>
+  </div>
+</form>
+
+  <table>
+    <tr th:each="flashcard: ${flashcards}">
+      <td th:text="${flashcard.getName()}"></td>
+      <td>
+        <p th:each="card: ${flashcard.getFlashcards()}">
+          <span th:text="${card.getId()}"></span>
+          <span>-></span>
+          <button th:text="${card.getFront()}"></button>
+        </p>
+      </td>
+
+    </tr>
+  </table>
+
+
+<script>
+  function button() {
+    async function deleteFlashcard() {
+      const fid = document.getElementById('fid').value;
+      console.log(fid);
+
+      if(!fid) {
+        return;
+      }
+
+      const data = {
+        id: `${fid}`
+      }
+
+      console.log(JSON.stringify(data));
+
+      const endpoint = new URL(`http://localhost:8080/user/flashcards/set/flashcard`);
+      try {
+        const response = await fetch(endpoint, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data)
+        });
+
+        return response.json();
+        // console.log("Success:", result);
+        // return result[0];
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    deleteFlashcard();
+  }
+
+</script>
+</body>

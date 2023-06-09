@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete flashcard set</title>
+</head>
+<body>
+<form id="form">
+  <div>
+    <label>Set Id</label>
+    <input id="set" name="set" placeholder="Enter flashcard's set id">
+  </div>
+
+  <div>
+    <button type="submit" onclick=button()>Delete flashcard set</button>
+    or <a href="/user">Back</a>
+  </div>
+
+</form>
+
+<table>
+  <tr th:each="flashcard: ${flashcards}">
+    <td th:text="${flashcard.getId()}"></td>
+    <td>-></td>
+    <td th:text="${flashcard.getName()}"></td>
+
+  </tr>
+</table>
+
+<script>
+  function button() {
+    async function deleteSet() {
+      const set1 = document.getElementById('set').value;
+      console.log(set1);
+
+      if(!set1) {
+        return;
+      }
+
+      const data = {
+        set_id: `${set1}`
+      }
+
+      console.log(JSON.stringify(data));
+
+      const endpoint = new URL(`http://localhost:8080/user/flashcards/set`);
+      try {
+        const response = await fetch(endpoint, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data)
+        });
+
+        return response.json();
+        // console.log("Success:", result);
+        // return result[0];
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    deleteSet();
+  }
+
+</script>
+</body>
