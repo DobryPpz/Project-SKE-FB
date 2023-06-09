@@ -20,7 +20,7 @@ public interface HangmanService {
 
     public ResponseEntity<?> getGivenGame(String gameID,String email);
 
-    public ResponseEntity<?> makeGuess(Map<String, String> jsonWithIDandGuess,String email) throws Exception;
+    public ResponseEntity<?> makeGuess(String gameId,Map<String, String> jsonWithGuess,String email) throws Exception;
 
     List<HangmanGame> getAllWonGames(String emailOfAuthenticatedUser);
 

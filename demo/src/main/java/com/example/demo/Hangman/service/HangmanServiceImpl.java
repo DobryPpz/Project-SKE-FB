@@ -39,8 +39,8 @@ public class HangmanServiceImpl implements HangmanService{
 
     @Override
     @Transactional
-    public ResponseEntity<?> makeGuess (Map<String,String> jsonWithIDandGuess,String email) throws Exception {
-        return hangmanDAO.makeGuess(jsonWithIDandGuess,email);
+    public ResponseEntity<?> makeGuess (String gameID, Map<String,String> jsonWithGuess,String email) throws Exception {
+        return hangmanDAO.makeGuess(gameID,jsonWithGuess,email);
     }
 
     @Override
