@@ -29,14 +29,14 @@ public class UserController {
     public String registrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         long id = userService.findUserByEmail(authentication.getName()).getId();
-        model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
         return "user";
     }
 
     @GetMapping("/flashcards/set/flashcard")
     public String addFlashcardToSet(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("flashcards", flashcardSetService.findAllByUser(userService.findUserByEmail(authentication.getName()).getUsername()));
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
         return "addflashcard";
     }
 
