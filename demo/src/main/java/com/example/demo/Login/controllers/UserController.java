@@ -55,4 +55,9 @@ public class UserController {
         return "wordle";
     }
 
+    @GetMapping("/flashcards/add_flashcard_set")
+    public String addFlashcardSet() {
+        return "addflashcardset";
+    }
+
 }
