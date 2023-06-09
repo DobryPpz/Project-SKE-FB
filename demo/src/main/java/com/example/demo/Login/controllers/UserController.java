@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -60,4 +61,25 @@ public class UserController {
         return "addflashcardset";
     }
 
+    @GetMapping("/flashcards/delete_flashcard_set")
+    public String deleteFlashcardSet(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
+        return "deleteflashcardset";
+    }
+
+    @GetMapping("/flashcards/delete_flashcard")
+    public String deleteFlashcard(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
+        return "deleteflashcard";
+
+    }
+
+    @GetMapping("/flashcards/update_flashcard")
+    public String updateFlashcard(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
+        return "updateflashcard";
+    }
 }
