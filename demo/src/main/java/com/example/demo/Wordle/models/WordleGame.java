@@ -117,42 +117,32 @@ public class WordleGame {
             return;
         }
 
-        if (guess.length() != word.length()) {
-            return;
-        }
-
-        updateLetterStates(guess);
+        this.guessesLeft--;
         this.guess = guess;
+
+        for (int i = 0; i < guess.length(); i++) {
+            char c = guess.charAt(i);
+            if (letterStates.containsKey(c) && letterStates.get(c) != LetterState.NOT_USED) {
+                continue;
+            }
+
+            if (word.contains(Character.toString(c))) {
+                if (guess.charAt(i) == word.charAt(i)) {
+                    letterStates.put(c, LetterState.GREEN);
+                } else {
+                    letterStates.put(c, LetterState.YELLOW);
+                }
+            } else {
+                letterStates.put(c, LetterState.GREY);
+            }
+        }
 
         if (guess.equals(word)) {
             status = WordleGameStatus.WON;
-        } else {
-            guessesLeft--;
-            if (guessesLeft == 0) {
-                status = WordleGameStatus.LOST;
-            }
-        }
-
-        setStatus();
-    }
-
-    private void updateLetterStates(String guess) {
-        Set<Character> usedLetters = new HashSet<>();
-        for (char c : guess.toCharArray()) {
-            if (letterStates.containsKey(c)) {
-                letterStates.put(c, LetterState.USED);
-                usedLetters.add(c);
-            }
-        }
-        for (char c : letterStates.keySet()) {
-            if (!usedLetters.contains(c)) {
-                letterStates.put(c, LetterState.NOT_USED);
-            }
+        } else if (guessesLeft < 0) {
+            status = WordleGameStatus.LOST;
         }
     }
-
-
-
 
     public void setStatus(){
         if(word.equals(guess)) {
@@ -166,7 +156,6 @@ public class WordleGame {
                 this.status = WordleGameStatus.LOST;
             }
         }
-        updateLetterStates(guess);
     }
 
     private Map<Character, LetterState> initializeLetterStates() {
