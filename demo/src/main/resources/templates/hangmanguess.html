@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>Hangman</title>
+</head>
+
+<body>
+<a th:href="@{/user/menu}">Go back</a>
+<div>
+    <!-- <h2 th:text="${game.getBody().getId()}">ID</h2> -->
+    <h2 th:text="'Guesses Left: ' + ${game.getBody().getGuessesLeft()}"></h2>
+    <h2 th:text="'Guessed Word: ' + ${game.getBody().getGuessedWord()}">Guessed Word</h2>
+
+</div>
+<div id="side">
+    <label >Send Letter</label>
+    <input type="text" id="letterInput" maxlength="1" oninput="validateInput(this)">
+    <input type="hidden" id="gameId" th:value="${game.getBody().getId()}">
+</div>
+<div>
+    <button type="submit" onclick=button()>Send</button>
+    or <a href="/user">Back</a>
+</div>
+
+</body>
+<script>
+    function validateInput(input) {
+          input.value = input.value.replace(/[^A-Za-z]/g, '');
+          input.value = input.value.slice(0, 1);
+        }
+
+    function button() {
+        async function submit() {
+            const letter = document.getElementById('letterInput').value;
+            const gameId = document.getElementById('gameId').value;
+            console.log(gameId)
+            if(!letter || !gameId) {
+                return;
+            }
+
+            const data = {
+                guess: `${letter}`,
+            }
+
+            console.log(JSON.stringify(data));
+
+            const endpoint = new URL(`http://localhost:8080/user/hangman/guess/${encodeURIComponent(gameId)}`);
+            try {
+                const response = await fetch(endpoint, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(data => {
+                    console.log(data)
+                    location.reload();
+                });
+                return response.json();
+            } catch (e) {
+                console.error(e);
+            }
+
+        }
+
+        submit();
+    }
+
+</script>
+
+
+
+
+</html>
