@@ -1,6 +1,7 @@
 package com.example.demo.Login.models;
 
 import com.example.demo.Hangman.models.HangmanGame;
+import com.example.demo.Quiz.models.QuizGame;
 import com.example.demo.Wordle.models.WordleGame;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade =
             {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<WordleGame> wordleGames;
+    @OneToMany(mappedBy = "user",cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    List<QuizGame> quizGames;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -81,5 +85,13 @@ public class User {
             wordleGames=new ArrayList<>();
         wordleGames.add(wordleGame);
         wordleGame.setUser(this);
+    }
+
+    public void addQuizGame(QuizGame quizGame){
+        if(quizGames==null){
+            quizGames = new ArrayList<>();
+        }
+        quizGames.add(quizGame);
+        quizGame.setUser(this);
     }
 }
