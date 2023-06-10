@@ -7,13 +7,16 @@ import com.example.demo.Quiz.models.QuizGame;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class QuizDAOImpl implements QuizDAO{
 
     private EntityManager entityManager;
@@ -24,11 +27,13 @@ public class QuizDAOImpl implements QuizDAO{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> newGame(FlashcardSet flashcardSet, User user) {
         QuizGame newGame = new QuizGame(flashcardSet,user);
         user.addQuizGame(newGame);
         entityManager.persist(newGame);
-        return new ResponseEntity<>(newGame, HttpStatus.CREATED);
+        return new ResponseEntity<>(new QuizGameDTO("game started",0,newGame.getCurrentFront()),
+                HttpStatus.CREATED);
     }
 
     @Override
@@ -46,8 +51,10 @@ public class QuizDAOImpl implements QuizDAO{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> makeGuess(QuizGame quizGame, String guess) {
         QuizGameDTO response = quizGame.check(guess);
+        entityManager.persist(quizGame);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

@@ -5,7 +5,9 @@ import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Hangman.models.HangmanGameStatus;
 import com.example.demo.Login.models.User;
 import com.example.demo.Quiz.dto.QuizGameDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -31,11 +33,25 @@ public class QuizGame {
     @ManyToOne(cascade =
             {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 
+    @ManyToOne(cascade =
+            {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="flashcardset_id")
+    @JsonBackReference
     private FlashcardSet flashcardSet;
+
+    @OneToMany
+    @JoinColumn(name = "remaining_flashcards")
+    @JsonManagedReference
     private List<Flashcard> remainingFlashcards;
+
+    @OneToMany
+    @JoinColumn(name = "used_flashcards")
     private List<Flashcard> usedFlashcards;
+
+    public QuizGame(){}
 
     public QuizGame(FlashcardSet flashcardSet, User user){
         this.user = user;

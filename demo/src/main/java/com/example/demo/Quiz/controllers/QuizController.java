@@ -70,4 +70,11 @@ public class QuizController {
         }
         return quizService.makeGuess(game,guess);
     }
+
+    @GetMapping("/games")
+    public ResponseEntity<?> getAllUserGames(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return new ResponseEntity<>(quizService.getGamesByUser(userRepository.findByEmail(username)),HttpStatus.OK);
+    }
 }
