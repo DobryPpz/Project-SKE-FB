@@ -3,6 +3,7 @@ package com.example.demo.Login.controllers;
 
 import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardSetService;
+import com.example.demo.Hangman.service.HangmanService;
 import com.example.demo.Login.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class UserController {
     UserService userService;
 
     FlashcardSetService flashcardSetService;
+    HangmanService hangmanService;
 
     //@GetMapping("/{id}")
     @GetMapping("")
@@ -49,6 +52,20 @@ public class UserController {
     @GetMapping("/hangman")
     public String hangmanGame() {
         return "hangman";
+    }
+
+    public String hangmanGame(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("flashcards", flashcardSetService.findAllByUser(authentication.getName()));
+        return "hangman";
+    }
+
+    @GetMapping("/hangman/game/{gameID}")
+    public String hangmanGame2(@PathVariable String gameID, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("game",hangmanService.getGivenGame(gameID,authentication.getName()));
+        return "hangmanguess";
     }
 
     @GetMapping("/wordle")
