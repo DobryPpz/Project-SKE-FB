@@ -11,10 +11,10 @@ wszystko w odpowiednich katalogach. Znalazły się tam również przypadki użyc
 Dokumentacja była ważnym źródłem informacji dla członków zespołu podczas pracy nad projektem,
 a przystępny sposób w jaki została napisana, ułatwi osobom zainteresowanym szybkie wdrożenie się w korzystanie z naszego API.
 
-Zaimplementowaliśmy ok. 20 (na koniec sprawdzić!!!!!!) poprawnych endpointów zgodnych z REST. Spełniliśmy wymagania dot. użycia co najmniej
+Zaimplementowaliśmy ok. 20 poprawnych endpointów zgodnych z REST. Spełniliśmy wymagania dot. użycia co najmniej
 co najmniej 4 metod typu: GET, POST, PUT i DELETE, zgodnie z ich odpowiednimi znaczeniami.
 
-W naszej aplikacji wykorzystaliśmy ok 7 tabel (na koniec sprawdzić!!!!!!) w bazie danych, przechowujących
+W naszej aplikacji wykorzystaliśmy 9 tabel w bazie danych, przechowujących
 informacje wymagane przez naszą logikę biznesową. Nasza logika biznesowa została zaprojektowana z wykorzystaniem Dependency Injection (DI) oraz
 Inversion of Control (IoC). 
 
@@ -27,5 +27,7 @@ Oto założenia, które spełniliśmy, a które są koniecznie do uzyskanie ocen
   
 - Skorzystaliśmy z narzędzia Spring Initializer (https://start.spring.io/),  który wygenerowal nam szkielet aplikacji, 
   który zawierał niezbędne pliki i struktury, takie jak plik konfiguracyjny, klasę główną aplikacji itd.
+
+- Stworzyliśmy dokumentację API korzystając z openAPI
 
 W rezultacie naszych wysiłków i wyżej wymienionych argumentów pretendujemy do oceny 4,5.
