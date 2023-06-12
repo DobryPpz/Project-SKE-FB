@@ -1,0 +1,60 @@
+package com.example.demo.Login.controllers;
+
+import com.example.demo.Login.models.User;
+import com.example.demo.Login.dto.UserDto;
+import com.example.demo.Login.services.UserService;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@AllArgsConstructor
+@Controller
+@ApiModel(description = "login controller")
+public class LoginController {
+
+
+    private UserService userService;
+
+    @RequestMapping("/login")
+    @ApiOperation(value = "login form")
+    public String loginForm() {
+        return "login";
+    }
+
+    @GetMapping("/registration")
+    @ApiOperation(value = "registration form")
+    public String registrationForm(Model model) {
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        return "registration";
+    }
+
+    @PostMapping("/registration")
+    @ApiOperation(value = "registration")
+    public String registration(
+            @Valid @ModelAttribute("user") UserDto userDto,
+            BindingResult result,
+            Model model) {
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+
+        if (existingUser != null)
+            result.rejectValue("email", null,
+                    "User already registered.");
+
+        if (result.hasErrors()) {
+            model.addAttribute("user", userDto);
+            return "/registration";
+        }
+
+        userService.saveUser(userDto);
+        return "redirect:/registration?success";
+    }
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>Registration</title>
+</head>
+<body>
+<div>
+  <div>
+    <div>
+      <form
+              method="post"
+              role="form"
+              th:action="@{/registration}"
+              th:object="${user}"
+      >
+        <h1>Sign In</h1>
+        <div th:if="${param.success}">
+          <div>
+            <h3>You have signed up successfully.</h3>
+            <h4><a th:href="@{/login}">Click here to Login</a></h4>
+          </div>
+        </div>
+        <div>
+          <label>Username</label>
+          <label>
+            <input th:field="*{username}">
+          </label>
+          <p th:errors="*{username}"
+             th:if="${#fields.hasErrors('username')}"></p>
+        </div>
+        <div>
+          <label>Email</label>
+          <label>
+            <input th:field="*{email}">
+          </label>
+          <p th:errors="*{email}"
+             th:if="${#fields.hasErrors('email')}"></p>
+        </div>
+        <div>
+          <label>Password</label>
+          <label>
+            <input th:field="*{password}">
+          </label>
+          <p th:errors="*{password}"
+             th:if="${#fields.hasErrors('password')}"></p>
+        </div>
+        <div>
+          <button type="submit">Register</button>
+          or <a th:href="@{/login}">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

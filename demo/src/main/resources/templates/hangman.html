@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>Hangman</title>
+</head>
+
+<body>
+    <a th:href="@{/user/menu}">Go back</a>
+
+    <div>
+        <label>Set ID</label>
+        <input id="set" name="set" placeholder="Enter set's id">
+    </div>
+    <div id="side">
+        <label >Set Side</label>
+        <input type="radio"  value="front">
+        <input type="radio"  value="back">
+    </div>
+    <div>
+        <button type="submit" onclick=button()>New Hangman Game</button>
+        or <a href="/user">Back</a>
+    </div>
+
+    <div>
+        <table>
+            <tr th:each="flashcard: ${flashcards}">
+                <td th:text="${flashcard.getId()}"></td>
+                <td>-></td>
+                <td th:text="${flashcard.getName()}"></td>
+
+            </tr>
+        </table>
+    </div>
+
+</body>
+<script>
+    function button() {
+        async function submit() {
+            const set = document.getElementById('set').value;
+            let sides = Array.from(document.getElementById("side").children).filter(el => el.type == "radio");
+
+            let ret = {};
+              for(let s of sides){
+                  if(s.checked){
+                        ret["side"] = s.value;
+                        break;
+                  }
+            }
+
+            if(!set || !sides) {
+                return;
+            }
+
+            const data = {
+                set_id: `${set}`,
+                side : ret["side"]
+            }
+
+            console.log(JSON.stringify(data));
+
+            const endpoint = new URL(`http://localhost:8080/user/hangman/new`);
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    const gameId = data.id;
+                    const gameUrl = `http://localhost:8080/user/hangman/game/${gameId}`;
+                    window.location.href = gameUrl;
+                });
+
+                //return response.json();
+                // console.log("Success:", result);
+                // return result[0];
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        submit();
+    }
+
+</script>
+
+
+
+
+</html>

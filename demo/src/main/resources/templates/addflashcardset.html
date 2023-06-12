@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add flashcard set</title>
+</head>
+<body>
+<form id="form">
+  <div>
+    <label>Front</label>
+    <input id="name" name="name" placeholder="Enter flashcard's set name">
+  </div>
+
+  <div>
+    <button type="submit" onclick=buttonAddSet()>Add flashcard set</button>
+    or <a href="/user">Back</a>
+  </div>
+</form>
+
+
+<script>
+  function buttonAddSet() {
+    async function submitAddSet() {
+      const name = document.getElementById('name').value;
+
+      console.log(name);
+
+      if(!name) {
+        return;
+      }
+
+      const data = {
+        name: `${name}`,
+
+      }
+
+      console.log(JSON.stringify(data));
+
+      const endpoint = new URL(`http://localhost:8080/user/flashcards/set`);
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data)
+        });
+
+        return response.json();
+        // console.log("Success:", result);
+        // return result[0];
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    submitAddSet();
+  }
+
+</script>
+
+
+
+</body>
+</html>
