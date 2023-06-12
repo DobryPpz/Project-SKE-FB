@@ -1,0 +1,1438 @@
+{
+	"info": {
+		"_postman_id": "a8a0e23b-1829-441e-b740-94d8ea2e6d3e",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24870462",
+		"_collection_link": "https://speeding-space-106501.postman.co/workspace/10a9ad81-0366-4668-b511-7307bb93bb61/collection/19442201-a8a0e23b-1829-441e-b740-94d8ea2e6d3e?action=share&creator=24870462&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Hangman",
+			"item": [
+				{
+					"name": "New Game",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"new"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/new |\n\nThe request return the flashcard sets of the user, with the flashcards in it. Then id of the flashcard set can be used in the POST request."
+					},
+					"response": [
+						{
+							"name": "New Game",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/hangman/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"new"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:02:59 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"name\": \"myNewSet\",\n        \"flashcards\": [\n            {\n                \"id\": 4,\n                \"front\": \"prince\",\n                \"back\": \"książe\"\n            },\n            {\n                \"id\": 5,\n                \"front\": \"book\",\n                \"back\": \"książka\"\n            }\n        ],\n        \"username\": \"adolf@o2.pl\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"myNewSet2\",\n        \"flashcards\": [\n            {\n                \"id\": 6,\n                \"front\": \"book\",\n                \"back\": \"książka\"\n            },\n            {\n                \"id\": 7,\n                \"front\": \"time\",\n                \"back\": \"czas\"\n            },\n            {\n                \"id\": 8,\n                \"front\": \"time\",\n                \"back\": \"czas\"\n            },\n            {\n                \"id\": 9,\n                \"front\": \"heheh\",\n                \"back\": \"hehehe\"\n            }\n        ],\n        \"username\": \"adolf@o2.pl\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"myNewSet2\",\n        \"flashcards\": [],\n        \"username\": \"adolf@o2.pl\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "New Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"set_id\":2,\r\n    \"side\":\"front\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/hangman/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"new"
+							]
+						},
+						"description": "Here is a basic usage example using a POST request:\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| POST | localhost:8080/user/hangman/new | application/json | {set_id: 'id_of_your_flashcard_set', side: 'side_of_the_flashcard'} |\n\nThe request needs the following components:\n\n1. end point – this should belocalhost:8080/user/hangman/new\n2. set_id – the id of set of the flashcards. Id is Integer\n3. side – the side of the flashcard you want to get your word off. If you have flashcards with one language on the front and another language on the back, and you want to select the side based on the convention chosen by the user, you can specify whether you want the \"front\" or \"back\" side when playing the hangman game. For example, if the user has chosen to store English words on the front side and Polish words on the back, and you select \"front\" as the side, the hangman game will use English words for the game."
+					},
+					"response": [
+						{
+							"name": "New Game",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"set_id\":2,\r\n    \"side\":\"front\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/hangman/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"new"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:03:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"guessedWord\": \"____\",\n    \"status\": \"ACTIVE\",\n    \"guessesLeft\": 7,\n    \"id\": 12\n}"
+						}
+					]
+				},
+				{
+					"name": "Guess",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"guess\":\"y\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/hangman/guess/33",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"guess",
+								"33"
+							]
+						},
+						"description": "Here is a basic usage example using a PUT request:\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| PUT | localhost:8080/user/hangman/guess/{gameID} | application/json | {guess: 'guessed_letter'} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/hangman/guess\n2. guess – guessed letter. When repeatedly sending the same letter during the hangman game, two different behaviors can occur:\n    1. If the letter is actually a part of the guessed word, it will be revealed in the appropriate positions of the word. Subsequent repeated sending of the same letter will have no effect on the game as the letter has already been correctly guessed and displayed.\n    2. However, if the letter is not a part of the guessed word, sending it repeatedly will have negative consequences. The \"guesses_left\" counter will decrease with each incorrect guess, and ultimately, it may lead to losing the game if the counter reaches zero."
+					},
+					"response": [
+						{
+							"name": "Guess",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"guess\":\"y\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/hangman/guess/34",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"guess",
+										"34"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Jun 2023 18:22:21 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"guessedWord\": \"____\",\n    \"status\": \"ACTIVE\",\n    \"guessesLeft\": 6,\n    \"id\": 34\n}"
+						}
+					]
+				},
+				{
+					"name": "Game Of Given Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/9",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"9"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/2 |\n\nThe request return the user's hangman game specified by its id in the url. User can only see his games, access to games of the other users is forbidden."
+					},
+					"response": [
+						{
+							"name": "Game Of Given Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/hangman/games/9",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"games",
+										"9"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:01:41 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"guessedWord\": \"prince\",\n    \"status\": \"WON\",\n    \"guessesLeft\": 6,\n    \"id\": 9\n}"
+						}
+					]
+				},
+				{
+					"name": "All Lost Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/lost",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"lost"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/lost |\n\nThe request return the user's hangman games that have been lost."
+					},
+					"response": [
+						{
+							"name": "All Lost Games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:8080/user/hangman/games/lost",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"games",
+										"lost"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:06:06 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"guessedWord\": \"_______\",\n        \"status\": \"LOST\",\n        \"guessesLeft\": 0,\n        \"id\": 7\n    },\n    {\n        \"guessedWord\": \"b__k\",\n        \"status\": \"LOST\",\n        \"guessesLeft\": 0,\n        \"id\": 10\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "All Active Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/active",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"active"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/active |\n\nThe request return the user's hangman games that are still active."
+					},
+					"response": [
+						{
+							"name": "All Active Games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/hangman/games/active",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"games",
+										"active"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:06:30 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"guessedWord\": \"_______\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 7,\n        \"id\": 6\n    },\n    {\n        \"guessedWord\": \"______\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 6,\n        \"id\": 8\n    },\n    {\n        \"guessedWord\": \"p___c_\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 7,\n        \"id\": 11\n    },\n    {\n        \"guessedWord\": \"____\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 4,\n        \"id\": 12\n    },\n    {\n        \"guessedWord\": \"____\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 7,\n        \"id\": 13\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "All Won Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/won",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"won"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/won |\n\nThe request return the user's hangman games that have been won."
+					},
+					"response": [
+						{
+							"name": "All Won Games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/hangman/games/won",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"hangman",
+										"games",
+										"won"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:07:10 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"guessedWord\": \"prince\",\n        \"status\": \"WON\",\n        \"guessesLeft\": 6,\n        \"id\": 9\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "fiszki",
+			"item": [
+				{
+					"name": "All sets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set"
+							]
+						},
+						"description": "This request returns a list of all the logged in user's sets and flashcards in them\n\n| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/flashcards/set |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcards/set"
+					},
+					"response": [
+						{
+							"name": "All sets",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "localhost:8080/user/flashcards/set",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"flashcards",
+										"set"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:24:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 11,\n        \"name\": \"zestaw_aleksa2_1\",\n        \"flashcards\": [\n            {\n                \"id\": 25,\n                \"front\": \"aleks\",\n                \"back\": \"debil\"\n            }\n        ],\n        \"username\": \"aleks2@gmail.com\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Add set",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"exampleSet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set"
+							]
+						},
+						"description": "This request adds a new set with a given name\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| POST | localhost:8080/user/flashcards/set | application/json | {\"name\":  <br>\"exampleSet\"  <br>} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcards/set\n2. name – this should be the name of a newly created set"
+					},
+					"response": [
+						{
+							"name": "Add set",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"exampleSet\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/flashcards/set",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"flashcards",
+										"set"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 19:32:57 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 13,\n    \"name\": \"exampleSet\",\n    \"flashcards\": [],\n    \"username\": \"aleks2@gmail.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete set",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"set_id\": 13\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set"
+							]
+						},
+						"description": "Here is a basic usage example using a PUT request:\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| DELETE | localhost:8080/user/flashcards/set | application/json | {  <br>\"set_id\": 13  <br>} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcards/set\n2. set_id – this should be the id of the set that needs to be removed"
+					},
+					"response": []
+				},
+				{
+					"name": "Add flashcard to set",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"set_id\": 14,\n    \"front\": \"kot\",\n    \"back\": \"cat\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set/flashcard",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set",
+								"flashcard"
+							]
+						},
+						"description": "This request adds a flashcard to a set\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| POST | localhost:8080/user/flashcards/set/flashcard | application/json | {  <br>\"set_id\": 14,  <br>\"front\": \"kot\",  <br>\"back\": \"cat\"  <br>} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcards/set/flashcard\n2. set_id – the id of the set the flashcard is supposed to be added to\n3. front – the front of the flashcard\n4. back – the back of the flashcard\n    \n\nUpon success a string \"flashcard successfully added\" is returned"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"set_id\": 14,\n    \"front\": \"kot\",\n    \"back\": \"cat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/flashcards/set/flashcard",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"flashcards",
+										"set",
+										"flashcard"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 20:14:09 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "flashcard successfully added"
+						}
+					]
+				},
+				{
+					"name": "Change flashcard",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 27,\n    \"front\": \"kotek\",\n    \"back\": \"kitty\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set/flashcard",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set",
+								"flashcard"
+							]
+						},
+						"description": "This request changed the contents of a flashcard\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| PUT | localhost:8080/user/flashcard/set/flashcard | application/json | {  <br>\"id\": 27,  <br>\"front\": \"kotek\",  <br>\"back\": \"kitty\"  <br>} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcard/set/flashcard\n2. id – the id of the flashcard to be changed\n3. front – optional parameter. if specified it changes the front side of the flashcard\n4. back – optional parameter. if specified it changes the back side of the flashcard\n    \n\nUpon success a string \"flashcard changed\" is returned"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 27,\n    \"front\": \"kotek\",\n    \"back\": \"kitty\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/flashcards/set/flashcard",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"flashcards",
+										"set",
+										"flashcard"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 07 Jun 2023 21:00:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "flashcard changed"
+						}
+					]
+				},
+				{
+					"name": "Delete flashcard",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 27\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/flashcards/set/flashcard",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"flashcards",
+								"set",
+								"flashcard"
+							]
+						},
+						"description": "This request deletes the specified flashcard from a set\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| DELETE | localhost:8080/user/flashcards/set/flashcard | application/json | {  <br>\"id\": 27  <br>} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/flashcards/set/flashcard\n2. id – the id of the flashcard to be deleted from a set"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wordle",
+			"item": [
+				{
+					"name": "New game",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/wordle/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"wordle",
+								"new"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New game",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"new"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Jun 2023 10:59:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"zestaw_1\",\n        \"flashcards\": [\n            {\n                \"id\": 1,\n                \"front\": \"zielony\",\n                \"back\": \"green\"\n            },\n            {\n                \"id\": 2,\n                \"front\": \"czerwony\",\n                \"back\": \"red\"\n            },\n            {\n                \"id\": 3,\n                \"front\": \"niebieski\",\n                \"back\": \"blue\"\n            }\n        ],\n        \"username\": \"patryk@mail.com\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"zestaw_2\",\n        \"flashcards\": [],\n        \"username\": \"patryk@mail.com\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "New game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/wordle/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"wordle",
+								"new"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"new"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Jun 2023 11:33:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 2378,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"_______\",\n    \"letterCount\": 7,\n    \"guessesLeft\": 6,\n    \"hint\": [],\n    \"notUsedLetters\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\",\n        \"f\",\n        \"g\",\n        \"h\",\n        \"i\",\n        \"j\",\n        \"k\",\n        \"l\",\n        \"m\",\n        \"n\",\n        \"o\",\n        \"p\",\n        \"q\",\n        \"r\",\n        \"s\",\n        \"t\",\n        \"u\",\n        \"v\",\n        \"w\",\n        \"x\",\n        \"y\",\n        \"z\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Guess incorrect",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
