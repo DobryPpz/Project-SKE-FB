@@ -10,6 +10,9 @@ import com.example.demo.Wordle.exceptions.InvalidGuessException;
 import com.example.demo.Wordle.models.WordleGameStatus;
 import com.example.demo.Wordle.other.WordleWords;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@ApiModel(description = "wordle controller")
 @RequestMapping("/user/wordle")
 class WordleController {
     private WordleService wordleService;
@@ -37,6 +41,7 @@ class WordleController {
     }
 
     @GetMapping(value = "/new")
+    @ApiOperation(value = "get all flashcard sets of user to choose from")
     public ResponseEntity<?> getAllFlashcardSetsOfUserToChooseFrom() {
         String email = getEmailOfAuthenticatedUser();
 
@@ -46,6 +51,7 @@ class WordleController {
     }
 
     @PostMapping(value = "/new")
+    @ApiOperation(value = "start a new wordle game with selected set")
     public ResponseEntity<?> newGame(@RequestBody Map<String, String> flashcardSetInfo) {
         String email = getEmailOfAuthenticatedUser();
         System.out.println(email);
@@ -59,35 +65,41 @@ class WordleController {
     }
 
     @GetMapping("/games")
+    @ApiOperation(value = "get all wordle games for user")
     public List<WordleGame> getAllGames() {
 
         return wordleService.getAllCurrentGames(getEmailOfAuthenticatedUser());
     }
 
     @GetMapping("/games/won")
+    @ApiOperation(value = "get all won wordle games for user")
     public List<WordleGame> getAllWonGames() {
 
         return wordleService.getAllWonGames(getEmailOfAuthenticatedUser());
     }
 
     @GetMapping("/games/lost")
+    @ApiOperation(value = "get all lost wordle games for user")
     public List<WordleGame> getAllLostGames() {
 
         return wordleService.getAllLostGames(getEmailOfAuthenticatedUser());
     }
 
     @GetMapping("/games/active")
+    @ApiOperation(value = "get all active wordle games for user")
     public List<WordleGame> getAllActiveGames() {
 
         return wordleService.getAllActiveGames(getEmailOfAuthenticatedUser());
     }
 
     @GetMapping(path = "/games/{gameID}")
+    @ApiOperation(value = "get given wordle game")
     public ResponseEntity<?> getGivenGame(@PathVariable String gameID) {
         return wordleService.getGivenGame(gameID, getEmailOfAuthenticatedUser());
     }
 
     @PutMapping(value = "/guess", headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
+    @ApiOperation(value = "attempt at guessing in wordle game")
     public ResponseEntity<?> makeGuess(@RequestBody Map<String, String> jsonWithIDandGuess) throws Exception {
         return wordleService.makeGuess(jsonWithIDandGuess, getEmailOfAuthenticatedUser());
     }

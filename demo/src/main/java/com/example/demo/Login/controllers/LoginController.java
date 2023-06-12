@@ -3,6 +3,8 @@ package com.example.demo.Login.controllers;
 import com.example.demo.Login.models.User;
 import com.example.demo.Login.dto.UserDto;
 import com.example.demo.Login.services.UserService;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,17 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @AllArgsConstructor
 @Controller
+@ApiModel(description = "login controller")
 public class LoginController {
 
 
     private UserService userService;
 
     @RequestMapping("/login")
+    @ApiOperation(value = "login form")
     public String loginForm() {
         return "login";
     }
 
     @GetMapping("/registration")
+    @ApiOperation(value = "registration form")
     public String registrationForm(Model model) {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
@@ -33,6 +38,7 @@ public class LoginController {
     }
 
     @PostMapping("/registration")
+    @ApiOperation(value = "registration")
     public String registration(
             @Valid @ModelAttribute("user") UserDto userDto,
             BindingResult result,

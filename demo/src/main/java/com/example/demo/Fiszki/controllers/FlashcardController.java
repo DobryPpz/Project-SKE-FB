@@ -1,10 +1,17 @@
 package com.example.demo.Fiszki.controllers;
+import com.example.demo.Fiszki.dto.*;
 import com.example.demo.Fiszki.models.Flashcard;
 import com.example.demo.Fiszki.models.FlashcardSet;
 import com.example.demo.Fiszki.service.FlashcardService;
 import com.example.demo.Fiszki.service.FlashcardSetService;
 import com.example.demo.Fiszki.service.FlashcardSetServiceImpl;
 import com.example.demo.Login.services.UserService;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +21,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user/flashcards")
+@Tag(name = "flashcard controller")
 public class FlashcardController {
     private FlashcardService flashcardService;
     private FlashcardSetService flashcardSetService;
@@ -31,6 +40,10 @@ public class FlashcardController {
     }
 
     @GetMapping("/set")
+    @Operation(summary = "get all the user's sets")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200,response = ArrayList.class, message = "success")
+    })
     public List<FlashcardSet> allSets(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -38,66 +51,88 @@ public class FlashcardController {
     }
 
     @PostMapping("/set")
-    public ResponseEntity<?> addFlashcardSet(@RequestBody Map<String,String> flashcardSetMap){
+    @Operation(summary = "add set")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, response = MessageResponse.class, message = "flashcard set added")
+    })
+    public ResponseEntity<?> addFlashcardSet(@RequestBody PostFlashcardSet flashcardSetMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        String name = flashcardSetMap.get("name");
+        String name = flashcardSetMap.getName();
         FlashcardSet flashcardSet = new FlashcardSet(name,username);
         FlashcardSet dbSet = flashcardSetService.save(flashcardSet);
-        return new ResponseEntity<>("\"flashcard set added\"",HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("flashcard set added"),HttpStatus.OK);
     }
 
     @DeleteMapping("/set")
-    public ResponseEntity<?> deleteFlashcardSet(@RequestBody Map<String,String> flashcardSetMap){
+    @Operation(summary = "delete set")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404,response = MessageResponse.class,message = "the set with that id does not exist"),
+            @ApiResponse(code = 403,response = MessageResponse.class,message = "you don't have permission to do that"),
+            @ApiResponse(code = 200,response = MessageResponse.class,message = "set successfully deleted")
+    })
+    public ResponseEntity<?> deleteFlashcardSet(@RequestBody DeleteFlashcardSet flashcardSetMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        int flashcardSetId = Integer.parseInt(flashcardSetMap.get("set_id"));
+        int flashcardSetId = flashcardSetMap.getSet_id();
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
         if(flashcardSet==null){
-            return new ResponseEntity<>("\"the set with that id does not exist\"",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponse("the set with that id does not exist"),HttpStatus.NOT_FOUND);
         }
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageResponse("you don't have permission to do that"),HttpStatus.FORBIDDEN);
         }
         flashcardSetService.deleteById(flashcardSetId);
-        return new ResponseEntity<>("\"set successfully deleted\"",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new MessageResponse("set successfully deleted"),HttpStatus.OK);
     }
 
     @PostMapping("/set/flashcard")
-    public ResponseEntity<?> addFlashcardToSet(@RequestBody Map<String,String> flashcardMap ){
+    @Operation(summary = "add flashcard to set")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404,response = MessageResponse.class,message = "the set with that id does not exist"),
+            @ApiResponse(code = 403,response = MessageResponse.class,message = "you don't have permission to do that"),
+            @ApiResponse(code = 200,response = MessageResponse.class,message = "flashcard successfully added")
+    })
+    public ResponseEntity<?> addFlashcardToSet(@RequestBody PostFlashcard flashcardMap ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        int flashcardSetId = Integer.parseInt(flashcardMap.get("set_id"));
-        String front = flashcardMap.get("front");
-        String back = flashcardMap.get("back");
+        int flashcardSetId = flashcardMap.getSet_id();
+        String front = flashcardMap.getFront();
+        String back = flashcardMap.getBack();
         FlashcardSet flashcardSet = flashcardSetService.findById(flashcardSetId);
         if(flashcardSet==null){
-            return new ResponseEntity<>("\"the set with that id does not exist\"",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponse("the set with that id does not exist"),HttpStatus.NOT_FOUND);
         }
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageResponse("you don't have permission to do that"),HttpStatus.FORBIDDEN);
         }
         Flashcard newFlashcard = new Flashcard(front,back,flashcardSet);
         flashcardSet.addFlashcard(newFlashcard);
         newFlashcard = flashcardService.save(newFlashcard);
-        return new ResponseEntity<>("\"flashcard successfully added\"",HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("flashcard successfully added"),HttpStatus.OK);
     }
 
     @PutMapping("/set/flashcard")
-    public ResponseEntity<?> changeFlashcard(@RequestBody Map<String,String> flashcardMap){
+    @Operation(summary = "change flashcard")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404,response = MessageResponse.class,message = "the flashcard with that id does not exist"),
+            @ApiResponse(code = 403,response = MessageResponse.class,message = "you don't have permission to do that"),
+            @ApiResponse(code = 200,response = MessageResponse.class,message = "flashcard changed")
+    })
+    public ResponseEntity<?> changeFlashcard(@RequestBody PutFlashcard flashcardMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        int flashcardId = Integer.parseInt(flashcardMap.get("id"));
+        int flashcardId = flashcardMap.getId();
         Flashcard flashcard = flashcardService.findById(flashcardId);
         if(flashcard==null){
-            return new ResponseEntity<>("\"the flashcard with that id does not exist\"",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponse("the flashcard with that id does not exist"),HttpStatus.NOT_FOUND);
         }
         FlashcardSet flashcardSet = flashcard.getFlashcardSet();
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageResponse("you don't have permission to do that"),HttpStatus.FORBIDDEN);
         }
-        String changedFront = flashcardMap.get("front");
-        String changedBack = flashcardMap.get("back");
+        String changedFront = flashcardMap.getFront();
+        String changedBack = flashcardMap.getBack();
         if(changedFront!=null){
             flashcard.setFront(changedFront);
         }
@@ -105,23 +140,30 @@ public class FlashcardController {
             flashcard.setBack(changedBack);
         }
         Flashcard changedFlashcard = flashcardService.save(flashcard);
-        return new ResponseEntity<>("\"flashcard changed\"",HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse("flashcard changed"),HttpStatus.OK);
     }
 
     @DeleteMapping("/set/flashcard")
-    public ResponseEntity<?> deleteFlashcard(@RequestBody Map<String,String> flashcardMap){
+    @Operation(summary = "change flashcard")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404,response = MessageResponse.class,message = "the flashcard with that id does not exist"),
+            @ApiResponse(code = 403,response = MessageResponse.class,message = "you don't have permission to do that"),
+            @ApiResponse(code = 200,response = MessageResponse.class,message = "flashcard successfully deleted")
+    })
+    public ResponseEntity<?> deleteFlashcard(@RequestBody DeleteFlashcard flashcardMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        int flashcardId = Integer.parseInt(flashcardMap.get("id"));
+        int flashcardId = flashcardMap.getId();
         Flashcard flashcard = flashcardService.findById(flashcardId);
         if(flashcard==null){
-            return new ResponseEntity<>("\"the flashcard with that id does not exist\"",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponse("the flashcard with that id does not exist"),HttpStatus.NOT_FOUND);
         }
         FlashcardSet flashcardSet = flashcard.getFlashcardSet();
         if(!username.equals(flashcardSet.getUsername())){
-            return new ResponseEntity<>("\"you don't have permission to do that\"",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageResponse("you don't have permission to do that"),HttpStatus.FORBIDDEN);
         }
         flashcardService.deleteById(flashcardId);
-        return new ResponseEntity<>("\"flashcard successfully deleted\"",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new MessageResponse("flashcard successfully deleted"),HttpStatus.OK);
     }
 }
+

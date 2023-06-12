@@ -6,6 +6,8 @@ import com.example.demo.Login.models.User;
 import com.example.demo.Login.repository.UserRepository;
 import com.example.demo.Quiz.models.QuizGame;
 import com.example.demo.Quiz.service.QuizService;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@ApiModel(description = "quiz controller")
 @RequestMapping("/user/quiz")
 public class QuizController {
     QuizService quizService;
@@ -31,6 +34,7 @@ public class QuizController {
         this.userRepository = userRepository;
     }
     @GetMapping("/new")
+    @ApiOperation(value = "get all flashcard sets of user to choose from")
     public ResponseEntity<?> getAllFlashcardSetsOfUserToChooseFrom(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -39,6 +43,7 @@ public class QuizController {
     }
 
     @PostMapping("/new")
+    @ApiOperation(value = "start a new quiz game with selected set")
     public ResponseEntity<?> newGame(@RequestBody Map<String,String> flashcardSetInfo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -54,6 +59,7 @@ public class QuizController {
     }
 
     @PostMapping("/guess")
+    @ApiOperation(value = "attempt at guessing in quiz game")
     public ResponseEntity<?> guess(@RequestBody Map<String,String> guessInfo){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -72,6 +78,7 @@ public class QuizController {
     }
 
     @GetMapping("/games")
+    @ApiOperation(value = "get all quiz games for user")
     public ResponseEntity<?> getAllUserGames(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
