@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update flashcard</title>
+</head>
+<body>
+<form id="form">
+    <div>
+        <label>Front</label>
+        <input id="front" name="front" placeholder="Enter flashcard's front">
+    </div>
+    <div>
+        <label>Back</label>
+        <input id="back" name="back" placeholder="Enter flashcard's back">
+    </div>
+    <div>
+        <label>Flashcard Id</label>
+        <input id="fid" name="fid" placeholder="Enter flashcard's id">
+    </div>
+    <div>
+        <button type="submit" onclick=button()>Update flashcard</button>
+        or <a href="/user">Back</a>
+    </div>
+</form>
+
+<div>
+    <table>
+        <tr th:each="flashcard: ${flashcards}">
+            <td th:text="${flashcard.getName()}"></td>
+            <td>
+                <p th:each="card: ${flashcard.getFlashcards()}">
+                    <span th:text="${card.getId()}"></span>
+                    <span>-></span>
+                    <button th:text="${card.getFront()}"></button>
+                </p>
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+
+
+<script>
+    function button() {
+        async function updateFlashcard() {
+            const front1 = document.getElementById('front').value;
+            const back1 = document.getElementById('back').value;
+            const fid = document.getElementById('fid').value;
+            console.log(front1);
+
+            if(!front1 || !back1 || !fid) {
+                return;
+            }
+
+            const data = {
+                id: `${fid}`,
+                front: `${front1}`,
+                back: `${back1}`
+            }
+
+            console.log(JSON.stringify(data));
+
+            const endpoint = new URL(`http://localhost:8080/user/flashcards/set/flashcard`);
+            try {
+                const response = await fetch(endpoint, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                return response.json();
+                // console.log("Success:", result);
+                // return result[0];
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        updateFlashcard();
+    }
+
+</script>
+
+
+
+</body>
+</html>

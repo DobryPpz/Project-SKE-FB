@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>User</title>
+</head>
+<body>
+<div>
+  <div>
+    <div>
+      <h1>Welcome!</h1>
+      <div>Username: <span sec:authentication="principal.username"/></div>
+      <div> Roles: <span sec:authentication="principal.authorities"/></div>
+
+      <div><a th:href="@{/logout}">Logout</a></div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div>
+    <h2>Your flashcards:</h2>
+  </div>
+
+  <div>
+    <table>
+      <tr th:each="flashcard: ${flashcards}">
+        <td th:text="${flashcard.getName()}"></td>
+        <td>
+          <p th:each="card: ${flashcard.getFlashcards()}">
+            <button th:text="${card.getFront()}"></button>
+            <button th:text="${card.getBack()}"></button>
+
+          </p>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+
+  <div><a th:href="@{/user/flashcards/set/flashcard}">Add flashcard</a></div>
+  <div><a th:href="@{/user/flashcards/add_flashcard_set}">Create flashcard set</a></div>
+  <div><a th:href="@{/user/flashcards/update_flashcard}">Update flashcard</a></div>
+  <div><a th:href="@{/user/flashcards/delete_flashcard}">Delete flashcard</a></div>
+  <div><a th:href="@{/user/flashcards/delete_flashcard_set}">Delete flashcard set</a></div>
+
+  <div><a th:href="@{/user/menu}">Games menu</a></div>
+</div>
+
+
+</body>
+</html>

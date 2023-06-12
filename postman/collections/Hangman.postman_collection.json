@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "a8a0e23b-1829-441e-b740-94d8ea2e6d3e",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24870462",
+		"_collection_link": "https://speeding-space-106501.postman.co/workspace/10a9ad81-0366-4668-b511-7307bb93bb61/collection/19442201-a8a0e23b-1829-441e-b740-94d8ea2e6d3e?action=share&creator=24870462&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Hangman",
+			"item": [
+				{
+					"name": "New Game",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"new"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/new |\n\nThe request return the flashcard sets of the user, with the flashcards in it. Then id of the flashcard set can be used in the POST request.\n\n**Sample response:**\n\n``` json\n[\n    {\n        \"id\": 2,\n        \"name\": \"myNewSet\",\n        \"flashcards\": [\n            {\n                \"id\": 4,\n                \"front\": \"prince\",\n                \"back\": \"książe\"\n            },\n            {\n                \"id\": 5,\n                \"front\": \"book\",\n                \"back\": \"książka\"\n            }\n        ],\n        \"username\": \"user@mail.pl\"\n    }\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "New Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"set_id\":2,\r\n    \"side\":\"front\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/hangman/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"new"
+							]
+						},
+						"description": "Here is a basic usage example using a POST request:\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| POST | localhost:8080/user/hangman/new | application/json | {set_id: 'id_of_your_flashcard_set', side: 'side_of_the_flashcard'} |\n\nThe request needs the following components:\n\n1. end point – this should belocalhost:8080/user/hangman/new\n2. set_id – the id of set of the flashcards. Id is Integer\n3. side – the side of the flashcard you want to get your word off. If you have flashcards with one language on the front and another language on the back, and you want to select the side based on the convention chosen by the user, you can specify whether you want the \"front\" or \"back\" side when playing the hangman game. For example, if the user has chosen to store English words on the front side and Polish words on the back, and you select \"front\" as the side, the hangman game will use English words for the game.\n    \n\n**Sample response:**\n\n``` json\n{\n\"guessedWord\": \"____\",\n\"status\": \"ACTIVE\",\n\"guessesLeft\": 7,\n\"id\": 10\n}\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Guess",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"game_id\":10, \r\n    \"guess\":\"y\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/hangman/guess",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"guess"
+							]
+						},
+						"description": "Here is a basic usage example using a PUT request:\n\n| **Method** | API endpoint | Content Type | Post Data |\n| --- | --- | --- | --- |\n| PUT | localhost:8080/user/hangman/guess | application/json | {game_id: 'id_of_hangman_game', guess: 'guessed_letter'} |\n\nThe request needs the following components:\n\n1. end point – this should be localhost:8080/user/hangman/guess\n2. game_id – the id of the hangman game. Id is Integer\n3. guess – guessed letter. When repeatedly sending the same letter during the hangman game, two different behaviors can occur:\n    1. If the letter is actually a part of the guessed word, it will be revealed in the appropriate positions of the word. Subsequent repeated sending of the same letter will have no effect on the game as the letter has already been correctly guessed and displayed.\n    2. However, if the letter is not a part of the guessed word, sending it repeatedly will have negative consequences. The \"guesses_left\" counter will decrease with each incorrect guess, and ultimately, it may lead to losing the game if the counter reaches zero."
+					},
+					"response": []
+				},
+				{
+					"name": "Game Of Given Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/2 |\n\nThe request return the user's hangman game specified by its id in the url. User can only see his games, access to games of the other users is forbidden.\n\n**Sample response**\n\n``` json\n{\n    \"guessedWord\": \"prince\",\n    \"status\": \"WON\",\n    \"guessesLeft\": 6,\n    \"id\": 9\n}\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "All Lost Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/lost",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"lost"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/lost |\n\nThe request return the user's hangman games that have been lost.\n\n``` json\n[\n    {\n        \"guessedWord\": \"_______\",\n        \"status\": \"LOST\",\n        \"guessesLeft\": 0,\n        \"id\": 7\n    },\n    {\n        \"guessedWord\": \"b__k\",\n        \"status\": \"LOST\",\n        \"guessesLeft\": 0,\n        \"id\": 10\n    }\n]\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "All Active Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/active",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"active"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/active |\n\nThe request return the user's hangman games that are still active.\n\n``` json\n[\n    {\n        \"guessedWord\": \"_______\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 7,\n        \"id\": 6\n    },\n    {\n        \"guessedWord\": \"______\",\n        \"status\": \"ACTIVE\",\n        \"guessesLeft\": 6,\n        \"id\": 8\n    }\n]\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "All Won Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/hangman/games/won",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"hangman",
+								"games",
+								"won"
+							]
+						},
+						"description": "| **Method** | API endpoint |\n| --- | --- |\n| GET | localhost:8080/user/hangman/games/won |\n\nThe request return the user's hangman games that have been won.\n\n``` json\n[\n    {\n        \"guessedWord\": \"prince\",\n        \"status\": \"WON\",\n        \"guessesLeft\": 6,\n        \"id\": 9\n    }\n]\n\n```"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
