@@ -70,15 +70,15 @@ public class QuizGame {
             if(guess.equals(getBack())){
                 setPointsWon(getPointsWon()+1);
                 chooseRandomFlashcard();
-                ret = new QuizGameDTO("correct!",getPointsWon(),getCurrentFront());
+                ret = new QuizGameDTO("correct!",getPointsWon(),getCurrentFront(),this.getGameId());
             }
             else{
                 chooseRandomFlashcard();
-                ret = new QuizGameDTO("wrong!",getPointsWon(),getCurrentFront());
+                ret = new QuizGameDTO("wrong!",getPointsWon(),getCurrentFront(),this.getGameId());
             }
             return ret;
         }
-        return new QuizGameDTO("game is already over",null,null);
+        return new QuizGameDTO("game is already over",null,null,this.getGameId());
     }
 
     public void chooseRandomFlashcard(){

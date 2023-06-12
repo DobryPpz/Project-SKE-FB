@@ -32,7 +32,10 @@ public class QuizDAOImpl implements QuizDAO{
         QuizGame newGame = new QuizGame(flashcardSet,user);
         user.addQuizGame(newGame);
         entityManager.persist(newGame);
-        return new ResponseEntity<>(new QuizGameDTO("game started",0,newGame.getCurrentFront()),
+        return new ResponseEntity<>(new QuizGameDTO("game started",
+                0,
+                newGame.getCurrentFront(),
+                newGame.getGameId()),
                 HttpStatus.CREATED);
     }
 

@@ -9,9 +9,12 @@ public class QuizGameDTO {
     private Integer pointsWon;
     @JsonProperty("toGuess")
     private String toGuess;
-    public QuizGameDTO(String message, Integer pointsWon, String toGuess){
+    @JsonProperty("game_id")
+    private int game_id;
+    public QuizGameDTO(String message, Integer pointsWon, String toGuess, int game_id){
         this.message = message;
         this.pointsWon = pointsWon;
         this.toGuess = toGuess;
+        this.game_id = game_id;
     }
 }
