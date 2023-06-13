@@ -1,7 +1,6 @@
 package com.example.demo.Wordle.dao;
 
 import com.example.demo.Fiszki.models.FlashcardSet;
-import com.example.demo.Hangman.models.HangmanGame;
 import com.example.demo.Wordle.exceptions.NotYourGame;
 import com.example.demo.Wordle.exceptions.GameAlreadyOverException;
 import com.example.demo.Wordle.exceptions.GameDoesNotExistException;
@@ -10,7 +9,6 @@ import com.example.demo.Wordle.models.WordleGame;
 import com.example.demo.Wordle.models.WordleGameStatus;
 import com.example.demo.Login.models.User;
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,7 +91,7 @@ public class WordleDAOImpl implements WordleDAO {
                 return gameOver(game);
         }
 
-        checkIfGuessIsRight(game,guess);
+        checkGuess(game,guess);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
@@ -148,12 +146,9 @@ public class WordleDAOImpl implements WordleDAO {
         return new ResponseEntity<>(s, HttpStatus.FORBIDDEN);
     }
 
-    public void checkIfGuessIsRight(WordleGame game, String guess)
+    public void checkGuess(WordleGame game, String guess)
     {
-        char guess0 = Character.toLowerCase(guess.charAt(0));
-        if (game.getWord().contains(String.valueOf(guess0))){
-            game.setGuessedWord(guess);
-        }
+        game.setGuessedWord(guess);
         game.guessesLeft--;
         game.setStatus();
     }
