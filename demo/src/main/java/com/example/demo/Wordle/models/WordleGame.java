@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 
 import java.util.*;
 
-@JsonPropertyOrder({"gameID", "status", "guess", "letterCount", "guessesLeft", "hint", "notUsedLetters"})
+@JsonPropertyOrder({"gameID", "status", "guess", "letterCount", "guessesLeft", "hint"})
 @Entity
 @Table(name = "wordle_games")
 public class WordleGame {
@@ -73,17 +73,7 @@ public class WordleGame {
         return status;
     }
 
-    public Set<Character> getNotUsedLetters() {
-        Set<Character> notUsedLetters = new HashSet<>();
 
-        for (Map.Entry<Character, LetterState> entry : letterStates.entrySet()) {
-            if (entry.getValue() == LetterState.NOT_USED) {
-                notUsedLetters.add(entry.getKey());
-            }
-        }
-
-        return notUsedLetters;
-    }
 
     @JsonIgnore
     public int getGuesses_left() {
