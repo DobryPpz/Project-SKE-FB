@@ -11,6 +11,9 @@ public class PostFlashcardSet {
         this.name = name;
     }
 
+    public PostFlashcardSet() {
+    }
+
     public void setName(String name) {
         this.name = name;
     }

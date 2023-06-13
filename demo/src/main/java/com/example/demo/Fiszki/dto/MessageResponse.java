@@ -19,4 +19,6 @@ public class MessageResponse {
     @Schema(description = "message",example = "some string message to user")
     private String message;
 
+    public MessageResponse() {
+    }
 }

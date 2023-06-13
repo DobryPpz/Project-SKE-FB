@@ -18,4 +18,6 @@ public class DeleteFlashcardSet {
     @Schema(description = "set_id",example = "1")
     private int set_id;
 
+    public DeleteFlashcardSet() {
+    }
 }

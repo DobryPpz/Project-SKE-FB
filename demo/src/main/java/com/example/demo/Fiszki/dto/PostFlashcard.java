@@ -17,6 +17,9 @@ public class PostFlashcard {
         this.set_id = set_id;
     }
 
+    public PostFlashcard() {
+    }
+
     public String getFront() {
         return front;
     }

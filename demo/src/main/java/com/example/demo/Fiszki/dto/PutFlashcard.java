@@ -17,6 +17,9 @@ public class PutFlashcard {
         this.back = back;
     }
 
+    public PutFlashcard() {
+    }
+
     public int getId() {
         return id;
     }
