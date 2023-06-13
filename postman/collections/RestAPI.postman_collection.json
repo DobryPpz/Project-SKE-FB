@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a8a0e23b-1829-441e-b740-94d8ea2e6d3e",
-		"name": "New Collection",
+		"_postman_id": "89666783-e723-460c-8e7b-8950cef4fb17",
+		"name": "SKE:FB",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24870462",
-		"_collection_link": "https://speeding-space-106501.postman.co/workspace/10a9ad81-0366-4668-b511-7307bb93bb61/collection/19442201-a8a0e23b-1829-441e-b740-94d8ea2e6d3e?action=share&creator=24870462&source=collection_link"
+		"_exporter_id": "27102150",
+		"_collection_link": "https://speeding-space-106501.postman.co/workspace/10a9ad81-0366-4668-b511-7307bb93bb61/collection/24870462-89666783-e723-460c-8e7b-8950cef4fb17?action=share&creator=27102150&source=collection_link"
 	},
 	"item": [
 		{
@@ -444,10 +444,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "localhost:8080/user/hangman/games/lost",
 									"host": [
@@ -741,10 +737,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
 								"url": {
 									"raw": "localhost:8080/user/flashcards/set",
 									"host": [
@@ -1213,24 +1205,13 @@
 			"name": "Wordle",
 			"item": [
 				{
-					"name": "New game",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "My sets",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "localhost:8080/user/wordle/new",
+							"raw": "http://localhost:8080/user/wordle/new",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -1240,25 +1221,18 @@
 								"wordle",
 								"new"
 							]
-						}
+						},
+						"description": "With this request, you can see your flashcard sets and each flashcard in those sets."
 					},
 					"response": [
 						{
-							"name": "New game",
+							"name": "My sets",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "localhost:8080/user/wordle/new",
+									"raw": "http://localhost:8080/user/wordle/new",
+									"protocol": "http",
 									"host": [
 										"localhost"
 									],
@@ -1308,7 +1282,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 09 Jun 2023 10:59:49 GMT"
+									"value": "Tue, 13 Jun 2023 11:10:42 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -1320,7 +1294,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"zestaw_1\",\n        \"flashcards\": [\n            {\n                \"id\": 1,\n                \"front\": \"zielony\",\n                \"back\": \"green\"\n            },\n            {\n                \"id\": 2,\n                \"front\": \"czerwony\",\n                \"back\": \"red\"\n            },\n            {\n                \"id\": 3,\n                \"front\": \"niebieski\",\n                \"back\": \"blue\"\n            }\n        ],\n        \"username\": \"patryk@mail.com\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"zestaw_2\",\n        \"flashcards\": [],\n        \"username\": \"patryk@mail.com\"\n    }\n]"
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"set1\",\n        \"flashcards\": [\n            {\n                \"id\": 1,\n                \"front\": \"lemon\",\n                \"back\": \"cytryna\"\n            },\n            {\n                \"id\": 2,\n                \"front\": \"carrot\",\n                \"back\": \"marchewka\"\n            },\n            {\n                \"id\": 3,\n                \"front\": \"potato\",\n                \"back\": \"ziemniak\"\n            },\n            {\n                \"id\": 4,\n                \"front\": \"peach\",\n                \"back\": \"brzoskwinia\"\n            }\n        ],\n        \"username\": \"patryk@mail.com\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"set2\",\n        \"flashcards\": [\n            {\n                \"id\": 5,\n                \"front\": \"bison\",\n                \"back\": \"bizon\"\n            },\n            {\n                \"id\": 6,\n                \"front\": \"bull\",\n                \"back\": \"byk\"\n            },\n            {\n                \"id\": 7,\n                \"front\": \"goat\",\n                \"back\": \"koza\"\n            },\n            {\n                \"id\": 8,\n                \"front\": \"sheep\",\n                \"back\": \"owca\"\n            }\n        ],\n        \"username\": \"patryk@mail.com\"\n    }\n]"
 						}
 					]
 				},
@@ -1329,8 +1303,18 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"set_id\":\"1\",\r\n    \"side\":\"front\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/user/wordle/new",
+							"raw": "http://localhost:8080/user/wordle/new",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -1340,11 +1324,12 @@
 								"wordle",
 								"new"
 							]
-						}
+						},
+						"description": "By using this request, you start a new game in Wordle.\n\nYou need to specify what set and what side of flashcards you want to use.\n\nFor example if you make all of your flashcards front side with foreign language words - you can use front to train them."
 					},
 					"response": [
 						{
-							"name": "New Request",
+							"name": "New game",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -1358,7 +1343,8 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/user/wordle/new",
+									"raw": "http://localhost:8080/user/wordle/new",
+									"protocol": "http",
 									"host": [
 										"localhost"
 									],
@@ -1408,7 +1394,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 09 Jun 2023 11:33:32 GMT"
+									"value": "Tue, 13 Jun 2023 06:43:25 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -1420,17 +1406,1102 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"gameID\": 2378,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"_______\",\n    \"letterCount\": 7,\n    \"guessesLeft\": 6,\n    \"hint\": [],\n    \"notUsedLetters\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\",\n        \"f\",\n        \"g\",\n        \"h\",\n        \"i\",\n        \"j\",\n        \"k\",\n        \"l\",\n        \"m\",\n        \"n\",\n        \"o\",\n        \"p\",\n        \"q\",\n        \"r\",\n        \"s\",\n        \"t\",\n        \"u\",\n        \"v\",\n        \"w\",\n        \"x\",\n        \"y\",\n        \"z\"\n    ]\n}"
+							"body": "{\n    \"gameID\": 1,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"______\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 6,\n    \"hint\": []\n}"
 						}
 					]
 				},
 				{
-					"name": "Guess incorrect",
+					"name": "Guess",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"game_id\":\"1\", \r\n    \"guess\": \"aceola\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/wordle/guess",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"wordle",
+								"guess"
+							]
+						},
+						"description": "With this request as soon as you have active game, you can guess a word.\n\nThere's game_id needed and word you want to guess.\n\nYou can keep guessing and game will show you if any of last word letters are in word to guess."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "incorrect",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"game_id\":\"1\", \r\n    \"guess\": \"banana\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/guess",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"guess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:44:29 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 1,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"banana\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 5,\n    \"hint\": [\n        \"b - GREY\",\n        \"a - YELLOW\",\n        \"n - GREY\",\n        \"a - GREEN\",\n        \"n - GREY\",\n        \"a - YELLOW\"\n    ]\n}"
+						},
+						{
+							"name": "incorrect",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"game_id\":\"1\", \r\n    \"guess\": \"cherry\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/guess",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"guess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:45:18 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 1,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"cherry\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 4,\n    \"hint\": [\n        \"c - GREY\",\n        \"h - GREY\",\n        \"e - GREY\",\n        \"r - GREY\",\n        \"r - GREY\",\n        \"y - GREY\"\n    ]\n}"
+						},
+						{
+							"name": "incorrect",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"game_id\":\"1\", \r\n    \"guess\": \"aceola\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/guess",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"guess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:46:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 1,\n    \"status\": \"ACTIVE\",\n    \"guess\": \"aceola\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 3,\n    \"hint\": [\n        \"a - YELLOW\",\n        \"c - GREY\",\n        \"e - GREY\",\n        \"o - YELLOW\",\n        \"l - GREY\",\n        \"a - YELLOW\"\n    ]\n}"
+						},
+						{
+							"name": "correct",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"game_id\":\"1\", \r\n    \"guess\": \"potato\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/wordle/guess",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"guess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:46:42 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 1,\n    \"status\": \"WON\",\n    \"guess\": \"potato\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 2,\n    \"hint\": [\n        \"p - GREEN\",\n        \"o - GREEN\",\n        \"t - GREEN\",\n        \"a - GREEN\",\n        \"t - GREEN\",\n        \"o - GREEN\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Won games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/wordle/games/won",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"wordle",
+								"games",
+								"won"
+							]
+						},
+						"description": "Get all won games in Wordle by specific user."
+					},
+					"response": [
+						{
+							"name": "Won games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/user/wordle/games/won",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"games",
+										"won"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:49:38 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"gameID\": 1,\n        \"status\": \"WON\",\n        \"guess\": \"potato\",\n        \"letterCount\": 6,\n        \"guessesLeft\": 2,\n        \"hint\": [\n            \"p - GREEN\",\n            \"o - GREEN\",\n            \"t - GREEN\",\n            \"a - GREEN\",\n            \"t - GREEN\",\n            \"o - GREEN\"\n        ]\n    },\n    {\n        \"gameID\": 3,\n        \"status\": \"WON\",\n        \"guess\": \"carrot\",\n        \"letterCount\": 6,\n        \"guessesLeft\": 5,\n        \"hint\": [\n            \"c - GREEN\",\n            \"a - GREEN\",\n            \"r - GREEN\",\n            \"r - GREEN\",\n            \"o - GREEN\",\n            \"t - GREEN\"\n        ]\n    },\n    {\n        \"gameID\": 4,\n        \"status\": \"WON\",\n        \"guess\": \"goat\",\n        \"letterCount\": 4,\n        \"guessesLeft\": 5,\n        \"hint\": [\n            \"g - GREEN\",\n            \"o - GREEN\",\n            \"a - GREEN\",\n            \"t - GREEN\"\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Active games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Get all active games in Wordle by specific user."
+					},
+					"response": [
+						{
+							"name": "Active games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/user/wordle/games/active",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"games",
+										"active"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:50:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"gameID\": 5,\n        \"status\": \"ACTIVE\",\n        \"guess\": \"_____\",\n        \"letterCount\": 5,\n        \"guessesLeft\": 6,\n        \"hint\": []\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Lost games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Get all lost games in Wordle by specific user."
+					},
+					"response": [
+						{
+							"name": "Lost games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/user/wordle/games/lost",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"games",
+										"lost"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:50:33 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"gameID\": 2,\n        \"status\": \"LOST\",\n        \"guess\": \"nance\",\n        \"letterCount\": 5,\n        \"guessesLeft\": 0,\n        \"hint\": [\n            \"n - GREY\",\n            \"a - YELLOW\",\n            \"n - GREY\",\n            \"c - GREEN\",\n            \"e - YELLOW\"\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get game by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Do you want to check how some games went?  \n\nJust put the game_id on the end of the endpoint."
+					},
+					"response": [
+						{
+							"name": "Game by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/wordle/games/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"wordle",
+										"games",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 06:51:35 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"gameID\": 3,\n    \"status\": \"WON\",\n    \"guess\": \"carrot\",\n    \"letterCount\": 6,\n    \"guessesLeft\": 5,\n    \"hint\": [\n        \"c - GREEN\",\n        \"a - GREEN\",\n        \"r - GREEN\",\n        \"r - GREEN\",\n        \"o - GREEN\",\n        \"t - GREEN\"\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Quiz",
+			"item": [
+				{
+					"name": "get new game",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/quiz/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"quiz",
+								"new"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/quiz/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"quiz",
+										"new"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Jun 2023 21:14:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 15,\n        \"name\": \"zestaw_3_2\",\n        \"flashcards\": [\n            {\n                \"id\": 28,\n                \"front\": \"pies\",\n                \"back\": \"dog\"\n            }\n        ],\n        \"username\": \"aleks3@gmail.com\"\n    },\n    {\n        \"id\": 16,\n        \"name\": \"zestaw_3_3\",\n        \"flashcards\": [],\n        \"username\": \"aleks3@gmail.com\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "start new game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"set_id\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/quiz/new",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"quiz",
+								"new"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"set_id\": 15\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/quiz/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"quiz",
+										"new"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Jun 2023 21:20:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"game started\",\n    \"pointsWon\": 0,\n    \"toGuess\": \"pies\",\n    \"game_id\": 5\n}"
+						}
+					]
+				},
+				{
+					"name": "guess",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"game_id\": 5,\n    \"guess\": \"dog\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user/quiz/guess",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"quiz",
+								"guess"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"game_id\": 5,\n    \"guess\": \"dog\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user/quiz/guess",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"quiz",
+										"guess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Jun 2023 21:22:36 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"correct!\",\n    \"pointsWon\": 1,\n    \"toGuess\": \"pies\",\n    \"game_id\": 5\n}"
+						}
+					]
+				},
+				{
+					"name": "get games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/quiz/games",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"quiz",
+								"games"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user/quiz/games",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"quiz",
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Jun 2023 21:23:28 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"gameId\": 1,\n        \"currentFront\": \"pies\",\n        \"back\": \"dog\",\n        \"status\": \"ACTIVE\",\n        \"pointsWon\": 0,\n        \"maxPoints\": 1,\n        \"remainingFlashcards\": [],\n        \"usedFlashcards\": []\n    },\n    {\n        \"gameId\": 2,\n        \"currentFront\": \"pies\",\n        \"back\": \"dog\",\n        \"status\": \"ACTIVE\",\n        \"pointsWon\": 0,\n        \"maxPoints\": 1,\n        \"remainingFlashcards\": [],\n        \"usedFlashcards\": []\n    },\n    {\n        \"gameId\": 3,\n        \"currentFront\": \"pies\",\n        \"back\": \"dog\",\n        \"status\": \"OVER\",\n        \"pointsWon\": 1,\n        \"maxPoints\": 1,\n        \"remainingFlashcards\": [],\n        \"usedFlashcards\": []\n    },\n    {\n        \"gameId\": 4,\n        \"currentFront\": \"pies\",\n        \"back\": \"dog\",\n        \"status\": \"ACTIVE\",\n        \"pointsWon\": 0,\n        \"maxPoints\": 1,\n        \"remainingFlashcards\": [],\n        \"usedFlashcards\": []\n    },\n    {\n        \"gameId\": 5,\n        \"currentFront\": \"pies\",\n        \"back\": \"dog\",\n        \"status\": \"OVER\",\n        \"pointsWon\": 1,\n        \"maxPoints\": 1,\n        \"remainingFlashcards\": [],\n        \"usedFlashcards\": [\n            {\n                \"id\": 28,\n                \"front\": \"pies\",\n                \"back\": \"dog\"\n            }\n        ]\n    }\n]"
+						}
+					]
 				}
 			]
 		}
