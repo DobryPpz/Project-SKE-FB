@@ -1,0 +1,31 @@
+Nasz zespół aspiruje do oceny 4,5. Oto założenia, które spełniliśmy, a które są koniecznie do uzyskanie oceny 4:
+
+Do stworzenia naszego projektu wykorzystaliśmy Spring Boot'a. Dzięki temu, 
+zamiast na skomplikowanej konfiguracji i integracji, mogliśmy się skupić na samej implementacji naszych pomysłów. 
+Do zarządzania zależnościami i budowania projektu wykorzystaliśmy Maven'a.
+Dzięki Mavenowi mogliśmy skutecznie zarządzać naszymi bibliotekami i zewnętrznymi zależnościami.
+
+Kod naszej aplikacji jest dostępny w zewnętrznym repozytorium Git pod adresem https://github.com/DobryPpz/Project-SKE-FB. 
+Tam też znajduje się dokumentacja API oraz wyeksportowana kolekcja requestów Postman dla wszystkich naszych endpointów; 
+wszystko w odpowiednich katalogach. Znalazły się tam również przypadki użycia w postaci diagramów UML.
+Dokumentacja była ważnym źródłem informacji dla członków zespołu podczas pracy nad projektem,
+a przystępny sposób w jaki została napisana, ułatwi osobom zainteresowanym szybkie wdrożenie się w korzystanie z naszego API.
+
+Zaimplementowaliśmy ok. 20 (na koniec sprawdzić!!!!!!) poprawnych endpointów zgodnych z REST. Spełniliśmy wymagania dot. użycia co najmniej
+co najmniej 4 metod typu: GET, POST, PUT i DELETE, zgodnie z ich odpowiednimi znaczeniami.
+
+W naszej aplikacji wykorzystaliśmy ok 7 tabel (na koniec sprawdzić!!!!!!) w bazie danych, przechowujących
+informacje wymagane przez naszą logikę biznesową. Nasza logika biznesowa została zaprojektowana z wykorzystaniem Dependency Injection (DI) oraz
+Inversion of Control (IoC). 
+
+Podsumowując, zespół skutecznie osiągnął wszystkie wymagania postawione przed projektem na ocenę 4. 
+
+Oto założenia, które spełniliśmy, a które są koniecznie do uzyskanie oceny wyższej niż 4:
+
+- Zaimplementowaliśmy bardziej złożoną logikę biznesową. Nasz projekt zakłada możliwość grania w 3 gry: Worlde, Hangman i Fiszki.
+  W ramach pracy nad nimi zbudowaliśmy bardziej skomplikowane mechanizmy sterujące rozgrywką. 
+  
+- Skorzystaliśmy z narzędzia Spring Initializer (https://start.spring.io/),  który wygenerowal nam szkielet aplikacji, 
+  który zawierał niezbędne pliki i struktury, takie jak plik konfiguracyjny, klasę główną aplikacji itd.
+
+W rezultacie naszych wysiłków i wyżej wymienionych argumentów pretendujemy do oceny 4,5.
